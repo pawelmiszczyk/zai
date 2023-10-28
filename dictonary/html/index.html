@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Wydarzenia na Osi Czasu z D3.js</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Firma XYZ - Intranet</h1>
+        <p>Najnowsze wydarzenia i informacje z życia firmy.</p>
+    </header>
+
+    <main>
+        <h2>Oś Czasu</h2>
+        <div id="timeline"></div>
+    </main>
+
+    <div class="event-tooltip"></div>
+	
+	<div id="controls">
+        <input type="range" id="timeRange" min="0" max="100" value="100">
+    </div>
+
+	<script src="../javascript/displayTimeline.js"></script>
+	
+    <footer>
+        <p>&copy; 2023 Firma XYZ. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+</body>
+</html>

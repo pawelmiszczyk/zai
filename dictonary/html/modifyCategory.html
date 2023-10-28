@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modyfikuj Kategorię</title>
+</head>
+<body>
+    <h1>Modyfikuj Kategorię</h1>
+    <form method="post" action="../php/modifyCategory.php">
+        <label for="category_name">Nowa nazwa kategorii:</label>
+        <input type="text" name="category_name" id="category_name">
+        <input type="hidden" name="category_id" value="<?php echo $_GET['category_id']; ?>">
+        <input type="submit" value="Zaktualizuj Kategorię">
+    </form>
+</body>
+</html>
