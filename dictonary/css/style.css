@@ -9,7 +9,8 @@ header {
 	text-align: center;
 	background-color: #3498db;
 	color: white;
-	padding: 20px 0;
+	padding: 20px;
+	width: 100%;
 }
 
 header h1 {
@@ -24,7 +25,7 @@ header p {
 main {
 	text-align: center;
 	margin: 20px auto;
-	max-width: 800px;
+	max-width: 1500px;
 }
 
 h2 {
@@ -37,17 +38,26 @@ h2 {
 
 footer {
 	text-align: center;
-	background-color: white;
+	background-color: #3498db;
 	color: white;
 	padding: 20px;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
 }
+
 #timeline {
 	background-color: white;
 	border: 1px solid #ccc;
 	padding: 20px;
+}
+
+#controls {
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    background-color: #f0f0f0; /* Dla przykładu - kolor tła */
+    padding: 20px; /* Opcjonalne - dodaje odstęp dookoła elementu */
 }
 
 .event {

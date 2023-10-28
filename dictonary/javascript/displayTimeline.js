@@ -14,18 +14,24 @@ function getEventsData(callback) {
 // Funkcja do wyświetlania wydarzeń na osi czasu
 function displayEventsOnTimeline(eventsData) {
 	// Ustawienia oś czasu
-	var timelineWidth = 800;
-	var timelineHeight = 50;
+	var timelineWidth = 1200;
+	var timelineHeight = 100;
 
 	// Tworzenie skali czasu
 	var parseTime = d3.timeParse("%Y-%m-%d");
 
+	var minDate = d3.min(eventsData, function (d) { return parseTime(d.start_date); });
+	var maxDate = d3.max(eventsData, function (d) { return parseTime(d.end_date); });
+	var sumOfDates = minDate.getDate() + maxDate.getDate();
+	minDate.setDate(minDate.getDate() - sumOfDates/20);
+	maxDate.setDate(maxDate.getDate() + sumOfDates/20);
+
 	var xScale = d3.scaleTime()
 		.domain([
-			d3.min(eventsData, function (d) { return parseTime(d.start_date); }),
-			d3.max(eventsData, function (d) { return parseTime(d.end_date); })
+			minDate,
+			maxDate
 		])
-		.range([0, timelineWidth]);
+		.range([sumOfDates/20, timelineWidth - sumOfDates/20]);
 
 	// Tworzenie oś czasu
 	var svg = d3.select("#timeline")
@@ -36,7 +42,7 @@ function displayEventsOnTimeline(eventsData) {
 	// Dodawanie linii łączącej wydarzenia
 	var line = d3.line()
 		.x(function (d) { return xScale(parseTime(d.start_date)); })
-		.y(25);
+		.y(50);
 
 	svg.append("path")
 		.datum(eventsData)
@@ -54,10 +60,12 @@ function displayEventsOnTimeline(eventsData) {
 		.append("circle")
 		.attr("class", "event-circle")
 		.attr("cx", function (d) { return xScale(parseTime(d.start_date)); })
-		.attr("cy", 25)
-		.attr("r", 10)  // Rozmiar punktu
+		.attr("cy", 50)
+		.attr("r", 15)  // Rozmiar punktu
 		.style("fill", function (d) { return d.category_color; })  // Kolor punktu
 		.on("mouseover", function (d) {
+			var tooltip = d3.select(".event-tooltip");
+
 			// Wyświetlanie dymka po najechaniu kursorem na punkt
 			tooltip.html("<strong>Nazwa:</strong> " + d.event_name + "<br><strong>Data rozpoczęcia:</strong> " + d.start_date + "<br><strong>Opis:</strong> " + d.description);
 
@@ -69,8 +77,22 @@ function displayEventsOnTimeline(eventsData) {
 					.style("display", "block");
 			}
 
-			tooltip.style("left", (d3.event.pageX) + "px")
-				.style("top", (d3.event.pageY) + "px")
+			var tooltipWidth = tooltip.node().getBoundingClientRect().width;
+			var tooltipHeight = tooltip.node().getBoundingClientRect().height;
+			var pageX = d3.event.pageX;
+			var pageY = d3.event.pageY;
+
+			// Sprawdź, czy dymek wykracza poza prawy lub dolny kraniec ekranu
+			if (pageX + tooltipWidth > window.innerWidth) {
+				pageX = window.innerWidth - tooltipWidth;
+			}
+
+			if (pageY + tooltipHeight > window.innerHeight) {
+				pageY = window.innerHeight - tooltipHeight;
+			}
+			
+			tooltip.style("left", pageX + "px")
+				.style("top", pageY + "px")
 				.style("display", "block");
 		})
 		.on("mouseout", function (d) {
@@ -78,15 +100,6 @@ function displayEventsOnTimeline(eventsData) {
 			tooltip.style("display", "none");
 		});
 
-	// Suwak do skalowania osi czasu
-	var timeRange = document.getElementById("timeRange");
-	timeRange.addEventListener("input", function () {
-		var scaleValue = parseFloat(this.value) / 100;
-		var newRange = timelineWidth * scaleValue;
-		xScale.range([0, newRange]);
-		svg.selectAll(".event-circle")
-			.attr("cx", function (d) { return xScale(parseTime(d.start_date)); });
-	});
 }
 
 // Pobierz dane wydarzeń i wyświetl na oś czasu
