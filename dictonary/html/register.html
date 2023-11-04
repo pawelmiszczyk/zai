@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Okno rejestracji</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1><a href="../html/index.html">Firma XYZ - Intranet</a></h1>
+    </header>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <p id="modalMessage"></p>
+      </div>
+    </div>
+	
+    <h1>Rejestracja</h1>
+    <form action="../php/addUser.php" method="post">
+        <label for="username">Nazwa użytkownika:</label>
+        <input type="text" name="username" id="username" required>
+        <br>
+        <label for="password">Hasło:</label>
+        <input type="password" name="password" id="password" required>
+        <br>
+        <label for="confirm_password">Potwierdź hasło:</label>
+        <input type="password" name="confirm_password" id="confirm_password" required>
+        <br>
+        <input type="submit" value="Zarejestruj się">
+		<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+    </form>
+	
+	<script>
+        // Obsługa komunikatu z adresu URL
+        var params = new URLSearchParams(window.location.search);
+        var message = params.get('message');
+
+        if (message) {
+            // Pobierz modal i przycisk zamykający
+            var modal = document.getElementById("myModal");
+            var closeModal = document.getElementById("closeModal");
+            var modalMessage = document.getElementById("modalMessage");
+
+            // Ustaw treść komunikatu w modalu
+            modalMessage.textContent = message;
+
+            // Po załadowaniu strony, pokaż modal
+            window.addEventListener('load', function () {
+                modal.style.display = "block";
+            });
+
+            // Kliknij przycisk zamykający, aby schować modal
+            closeModal.addEventListener('click', function() {
+                modal.style.display = "none";
+            });
+        }
+    </script>
+	
+    <footer>
+        <p>&copy; 2023 Firma XYZ. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+</body>
+</html>

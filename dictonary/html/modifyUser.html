@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Zmiana hasła</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1><a href="../html/index.html">Firma XYZ - Intranet</a></h1>
+    </header>
+	
+	<div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <p id="modalMessage"></p>
+      </div>
+    </div>
+	<script>
+	// Funkcja do pobierania treści z refLogin.php za pomocą AJAX
+	function getLogin() {
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "../php/getLogin.php", true);
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4 && xhr.status === 200) {
+				var response = JSON.parse(xhr.responseText);
+				document.getElementById("username").value = response; // Ustaw wartość pola "username" w formularzu
+			}
+		};
+		xhr.send();
+	}
+
+	// Wywołaj funkcję, aby pobrać zawartość
+	getLogin();
+	</script>
+
+	<form action="../php/modifyUser.php" method="post">
+		<h2>Zmień hasło</h2>
+		<label for="username">Użytkownik:</label>
+		<input type="text" id="username" name="username" readonly>
+		<label for="password">Aktualne hasło:</label>
+		<input type="password" id="password" name="password" required>
+		<label for="newPassword">Nowe hasło:</label>
+		<input type="password" id="newPassword" name="newPassword" required>
+		<label for="confirmPassword">Potwierdź nowe hasło:</label>
+		<input type="password" id="confirmPassword" name="confirmPassword" required>
+		<button type="submit">Zmień hasło</button>
+		<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+	</form>
+
+	<script>
+        // Obsługa komunikatu z adresu URL
+        var params = new URLSearchParams(window.location.search);
+        var message = params.get('message');
+
+        if (message) {
+            // Pobierz modal i przycisk zamykający
+            var modal = document.getElementById("myModal");
+            var closeModal = document.getElementById("closeModal");
+            var modalMessage = document.getElementById("modalMessage");
+
+            // Ustaw treść komunikatu w modalu
+            modalMessage.textContent = message;
+
+            // Po załadowaniu strony, pokaż modal
+            window.addEventListener('load', function () {
+                modal.style.display = "block";
+            });
+
+            // Kliknij przycisk zamykający, aby schować modal
+            closeModal.addEventListener('click', function() {
+                modal.style.display = "none";
+            });
+        }
+    </script>
+    <footer>
+        <p>&copy; 2023 Firma XYZ. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+</body>
+</html>
