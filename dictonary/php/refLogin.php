@@ -2,7 +2,7 @@
 session_start(); // Rozpocznij sesję
 
 if (isset($_SESSION['username'])) {
-    $output = '<h1>Witaj, ' . $_SESSION['username'] . '!</h1>';
+    $output = '<h1>Witaj ' . $_SESSION['username'] . '.</h1>';
 	$output .= '<p><a href="../html/modifyUser.html">Zmień hasło</a></p>';
     $output .= '<p><a href="../php/logout.php">Wyloguj się</a></p>';
 } else {

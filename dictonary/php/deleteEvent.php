@@ -17,9 +17,8 @@ if (!$conn) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //if (isset($_POST['event_id'], $_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
-        if (isset($_POST['event_id'], $_POST['csrf_token'])) {
-			$event_id = mysqli_real_escape_string($conn, $_POST['event_id']);
+    if (isset($_POST['event_id'], $_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
+		$event_id = mysqli_real_escape_string($conn, $_POST['event_id']);
 
         // Sprawdź, czy istnieje wydarzenie o podanym identyfikatorze
         $check_query = "SELECT * FROM events WHERE event_id = $event_id";

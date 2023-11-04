@@ -45,7 +45,7 @@
 		<label for="confirmPassword">Potwierdź nowe hasło:</label>
 		<input type="password" id="confirmPassword" name="confirmPassword" required>
 		<button type="submit">Zmień hasło</button>
-		<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+		<input type="hidden" name="csrf_token" id="csrf_token">
 	</form>
 
 	<script>
@@ -73,6 +73,23 @@
             });
         }
     </script>
+	<script>
+	// Funkcja do pobierania treści z getSession.php za pomocą AJAX
+	function getLogin() {
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "../php/getSession.php", true);
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4 && xhr.status === 200) {
+				var response = JSON.parse(xhr.responseText);
+				document.getElementById("csrf_token").value = response;
+			}
+		};
+		xhr.send();
+	}
+
+	// Wywołaj funkcję, aby pobrać zawartość
+	getLogin();
+	</script>
     <footer>
         <p>&copy; 2023 Firma XYZ. Wszelkie prawa zastrzeżone.</p>
     </footer>

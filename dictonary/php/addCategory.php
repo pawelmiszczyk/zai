@@ -16,8 +16,7 @@ if (!$conn) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //if (isset($_POST['category_name'], $_POST['category_color'], $_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
-    if (isset($_POST['category_name'], $_POST['category_color'], $_POST['csrf_token'])) {
+    if (isset($_POST['category_name'], $_POST['category_color'], $_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
 		$category_name = mysqli_real_escape_string($conn, $_POST['category_name']);
         $category_color = $_POST['category_color'];
 

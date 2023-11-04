@@ -27,7 +27,7 @@
         <select name="category_id" id="category_id" required>
             <!-- Kategorie będą dynamicznie pobierane i wstawiane tutaj -->
         </select>
-        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+        <input type="hidden" name="csrf_token" id="csrf_token">
         <input type="submit" value="Dodaj wydarzenie">
 	</form>
 
@@ -43,7 +43,7 @@
 		<input type="file" name="new_image" id="new_image" accept="image/*">
 		<select name="new_category_id" id="new_category_id">
 		</select>
-        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+        <input type="hidden" name="csrf_token" id="csrf_token">
         <input type="submit" value="Modyfikuj wydarzenie">
     </form>
 
@@ -52,7 +52,7 @@
         <select id="delete_event_id" name="event_id">
             <!-- Wydarzenia będą dynamicznie pobierane i wstawiane tutaj -->
         </select>
-        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+        <input type="hidden" name="csrf_token" id="csrf_token">
         <input type="submit" value="Usuń wydarzenie">
     </form>
 
@@ -160,6 +160,24 @@
         }
     </script>
 
+	<script>
+	// Funkcja do pobierania treści z getSession.php za pomocą AJAX
+	function getSession() {
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "../php/getSession.php", true);
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4 && xhr.status === 200) {
+				var response = JSON.parse(xhr.responseText);
+				document.getElementById("csrf_token").value = response;
+			}
+		};
+		xhr.send();
+	}
+
+	// Wywołaj funkcję, aby pobrać zawartość
+	getSession();
+	</script>
+	
     <footer>
         <p>&copy; 2023 Firma XYZ. Wszelkie prawa zastrzeżone.</p>
     </footer>
