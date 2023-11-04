@@ -5,6 +5,7 @@
     <title>Wydarzenia na Osi Czasu z D3.js</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
+	<link rel="stylesheet" type="text/css" media="print" href="../css/print.css">
 </head>
 <body>
     <header>
@@ -36,16 +37,16 @@
 		getLoginContent();
 	</script>
 
-	<div id="sekcja"></div>
+	<div id="sekcja" class="print-hidden"></div>
 
     <main>
         <h2>Najważniejsze wydarzenia w naszej firmie.</h2>
         <div id="timeline"></div>
         <!-- Dodaj listę rozwijaną do wyboru kategorii -->
-        <label for="categorySelect">Wybierz kategorię:</label>
-        <select id="categorySelect">
-            <option value="all">Wszystkie</option>
-        </select>
+		<label for="categorySelect">Wybierz kategorię:</label>
+		<select id="categorySelect" class="print-hidden">
+			<option value="all">Wszystkie</option>
+		</select>
     </main>
 
     <div class="event-tooltip"></div>
@@ -77,6 +78,17 @@
             });
         }
     </script>
+
+	<button id="printButton" class="center-button print-hidden">Drukuj wydarzenia</button>
+
+	<script>
+		// Obsługa kliknięcia przycisku "Drukuj wydarzenia"
+		var printButton = document.getElementById("printButton");
+		printButton.addEventListener("click", function() {
+			// Wywołaj okno drukowania
+			window.print();
+		});
+	</script>
 
     <footer>
         <p>&copy; 2023 Firma XYZ. Wszelkie prawa zastrzeżone.</p>

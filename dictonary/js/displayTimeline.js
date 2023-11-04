@@ -41,7 +41,7 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
     var minDate = d3.min(eventsData, function (d) { return parseTime(d.start_date); });
     var maxDate = d3.max(eventsData, function (d) { return parseTime(d.end_date); });
     minDate.setDate(minDate.getDate());
-    maxDate.setDate(maxDate.getDate() + 1); 
+    maxDate.setDate(maxDate.getDate() + 1);
 
     var xScale = d3.scaleTime()
         .domain([minDate, maxDate])
@@ -63,11 +63,14 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
         });
     }
 
-    // Rysowanie linii łączących wydarzenia
-    svg.selectAll(".event-line")
+    // Grupowanie wydarzeń w ramach grup czasowych
+    var groups = svg.selectAll(".event-group")
         .data(filteredEvents)
         .enter()
-        .append("rect")
+        .append("g")
+        .attr("class", "event-group");
+
+    groups.append("rect")
         .attr("class", "event-line")
         .attr("x", function (d) { return xScale(parseTime(d.start_date)); })
         .attr("y", yPosition - lineHeight / 2)
@@ -94,44 +97,45 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
             }
         });
 
-    // Dymki po najechaniu na linie czasu
-    svg.selectAll(".event-line")
-        .on("mouseover", function (d) {
-            var tooltip = d3.select(".event-tooltip");
+    groups.on("mouseover", function (d) {
+        var group = d3.select(this);
+        var tooltip = d3.select(".event-tooltip");
 
-            // Wyświetlanie dymka po najechaniu kursorem na linię czasu
-            tooltip.html("<strong>Nazwa:</strong> " + d.event_name + "<br><strong>Data rozpoczęcia:</strong> " + d.start_date + "<br><strong>Data zakończenia:</strong> " + d.end_date + "<br><strong>Opis:</strong> " + d.description);
+        // Wyświetlanie dymka po najechaniu na linię czasu
+        tooltip.html("<strong>Nazwa:</strong> " + d.event_name + "<br><strong>Data rozpoczęcia:</strong> " + d.start_date + "<br><strong>Data zakończenia:</strong> " + d.end_date + "<br><strong>Opis:</strong> " + d.description);
 
-            // Dodaj obrazek do dymka, jeśli jest dostępny
-            if (d.image_url) {
-                tooltip.append("img")
-                    .attr("src", "data:image/jpeg;base64," + d.image_url)
-                    .attr("width", 600)
-                    .style("display", "block");
-            }
-
-            var tooltipWidth = tooltip.node().getBoundingClientRect().width;
-            var tooltipHeight = tooltip.node().getBoundingClientRect().height;
-            var pageX = d3.event.pageX;
-            var pageY = d3.event.pageY;
-
-            // Sprawdź, czy dymek wykracza poza prawy lub dolny kraniec ekranu
-            if (pageX + tooltipWidth > window.innerWidth) {
-                pageX = window.innerWidth - tooltipWidth;
-            }
-
-            if (pageY + tooltipHeight > window.innerHeight) {
-                pageY = window.innerHeight - tooltipHeight;
-            }
-
-            tooltip.style("left", pageX + "px")
-                .style("top", pageY + "px")
+        // Dodaj obrazek do dymka, jeśli jest dostępny
+        if (d.image_url) {
+            tooltip.append("img")
+                .attr("src", "data:image/jpeg;base64," + d.image_url)
+                .attr("width", 600)
                 .style("display", "block");
-        })
-        .on("mouseout", function (d) {
-            // Ukrywanie dymka po zjechaniu kursorem z lini czasu
-            tooltip.style("display", "none");
-        });
+        }
+
+        var tooltipWidth = tooltip.node().getBoundingClientRect().width;
+        var tooltipHeight = tooltip.node().getBoundingClientRect().height;
+        var pageX = d3.event.pageX;
+        var pageY = d3.event.pageY;
+
+        // Sprawdź, czy dymek wykracza poza prawy lub dolny kraniec ekranu
+        if (pageX + tooltipWidth > window.innerWidth) {
+            pageX = window.innerWidth - tooltipWidth;
+        }
+
+        if (pageY + tooltipHeight > window.innerHeight) {
+            pageY = window.innerHeight - tooltipHeight;
+        }
+
+        tooltip.style("left", pageX + "px")
+            .style("top", pageY + "px")
+            .style("display", "block");
+    });
+
+    groups.on("mouseout", function (d) {
+        // Ukrywanie dymka po zjechaniu kursorem z lini czasu
+        var tooltip = d3.select(".event-tooltip");
+        tooltip.style("display", "none");
+    });
 }
 
 // Pobierz kategorie i wydarzenia, a następnie wyświetl na osi czasu
