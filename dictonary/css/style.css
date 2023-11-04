@@ -1,7 +1,8 @@
-body {
+html, body {
 	margin: 0;
 	padding: 0;
 	background-color: #f0f0f0;
+	height: 100%;
 	font-family: Arial, sans-serif;
 }
 
@@ -28,6 +29,7 @@ main {
 	max-width: 1500px;
 }
 
+
 h2 {
 	background-color: #3498db;
 	color: white;
@@ -41,7 +43,6 @@ footer {
 	background-color: #3498db;
 	color: white;
 	padding: 20px;
-	position: absolute;
 	bottom: 0;
 	width: 100%;
 }
@@ -76,4 +77,111 @@ footer {
 	padding: 10px;
 	z-index: 100;
 	display: none;
+}
+
+.form-container {
+	display: flex;
+	flex-direction: column;
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.form-group {
+	margin-bottom: 10px;
+}
+
+label {
+	display: block;
+}
+
+input {
+	width: 100%;
+}
+
+.submit-button {
+	margin-top: 10px;
+}
+
+/* Stylizacja formularzy */
+form {
+	margin: 20px 0;
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+}
+
+input[type="text"] {
+	width: 100%;
+	padding: 10px;
+	margin: 5px 0;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+input[type="color"] {
+	width: 100%;
+	margin: 5px 0;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+/* Stylizacja przycisków */
+input[type="submit"] {
+	background-color: #3498db;
+	color: #fff;
+	border: none;
+	border-radius: 3px;
+	padding: 10px 20px;
+	cursor: pointer;
+}
+
+/* Stylizacja nagłówka */
+h1 {
+	color: #333;
+	padding-left: 10px;
+}
+
+/* Stylizacja select */
+select {
+	width: 100%;
+	padding: 10px;
+	margin: 5px 0;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+/* Styl modalu */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+}
+
+/* Styl zawartości modalu */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  text-align: center;
+  border-radius: 5px;
+}
+
+/* Styl przycisku zamykającego modal */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: black;
 }

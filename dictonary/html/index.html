@@ -8,19 +8,76 @@
 </head>
 <body>
     <header>
-        <h1>Firma XYZ - Intranet</h1>
-        <p>Najnowsze wydarzenia i informacje z życia firmy.</p>
+        <h1><a href="../html/index.html">Firma XYZ - Intranet</a></h1>
     </header>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <p id="modalMessage"></p>
+      </div>
+    </div>
+
+	<script>
+		// Funkcja do pobierania treści z refLogin.php za pomocą AJAX
+		function getLoginContent() {
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "../php/refLogin.php", true);
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					var response = JSON.parse(xhr.responseText);
+					document.getElementById("sekcja").innerHTML = response;
+				}
+			};
+			xhr.send();
+		}
+
+		// Wywołaj funkcję, aby pobrać zawartość
+		getLoginContent();
+	</script>
+
+	<div id="sekcja"></div>
 
     <main>
         <h2>Najważniejsze wydarzenia w naszej firmie.</h2>
         <div id="timeline"></div>
+        <!-- Dodaj listę rozwijaną do wyboru kategorii -->
+        <label for="categorySelect">Wybierz kategorię:</label>
+        <select id="categorySelect">
+            <option value="all">Wszystkie</option>
+        </select>
     </main>
 
     <div class="event-tooltip"></div>
 
-	<script src="../javascript/displayTimeline.js"></script>
-	
+    <script src="../js/displayTimeline.js"></script>
+
+    <script>
+        // Obsługa komunikatu z adresu URL
+        var params = new URLSearchParams(window.location.search);
+        var message = params.get('message');
+
+        if (message) {
+            // Pobierz modal i przycisk zamykający
+            var modal = document.getElementById("myModal");
+            var closeModal = document.getElementById("closeModal");
+            var modalMessage = document.getElementById("modalMessage");
+
+            // Ustaw treść komunikatu w modalu
+            modalMessage.textContent = message;
+
+            // Po załadowaniu strony, pokaż modal
+            window.addEventListener('load', function () {
+                modal.style.display = "block";
+            });
+
+            // Kliknij przycisk zamykający, aby schować modal
+            closeModal.addEventListener('click', function() {
+                modal.style.display = "none";
+            });
+        }
+    </script>
+
     <footer>
         <p>&copy; 2023 Firma XYZ. Wszelkie prawa zastrzeżone.</p>
     </footer>

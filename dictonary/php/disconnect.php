@@ -1,5 +1,6 @@
 <?php
-require_once('database_config.php');
+require_once('databaseConfig.php');
+session_start(); // Rozpocznij sesję
 
 // Uzyskaj dane dostępowe
 $database_config = getDatabaseConfig();
