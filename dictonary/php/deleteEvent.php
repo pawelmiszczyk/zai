@@ -17,28 +17,33 @@ if (!$conn) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['event_id'], $_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
-		$event_id = mysqli_real_escape_string($conn, $_POST['event_id']);
+    if (isset($_POST['event_id']) ) {
+		if (isset($_POST['csrf_token'])) {
+				
+			$event_id = mysqli_real_escape_string($conn, $_POST['event_id']);
 
-        // Sprawdź, czy istnieje wydarzenie o podanym identyfikatorze
-        $check_query = "SELECT * FROM events WHERE event_id = $event_id";
-        $result = mysqli_query($conn, $check_query);
+			// Sprawdź, czy istnieje wydarzenie o podanym identyfikatorze
+			$check_query = "SELECT * FROM events WHERE event_id = $event_id";
+			$result = mysqli_query($conn, $check_query);
 
-        if (mysqli_num_rows($result) > 0) {
-            // Usuń wydarzenie z tabeli events
-            $delete_query = "DELETE FROM events WHERE event_id = $event_id";
+			if (mysqli_num_rows($result) > 0) {
+				// Usuń wydarzenie z tabeli events
+				$delete_query = "DELETE FROM events WHERE event_id = $event_id";
 
-            if (mysqli_query($conn, $delete_query)) {
-				header('Location: ../html/manageEvents.html?message=Wydarzenie zostało usunięte.');
-            } else {
-                echo "Błąd podczas usuwania wydarzenia: " . mysqli_error($conn);
-            }
-        } else {
-			header('Location: ../html/manageEvents.html?message=Wydarzenie o podanym identyfikatorze nie istnieje.');
-        }
-    } else {
-        echo "Błąd CSRF. Żądanie odrzucone.";
-    }
+				if (mysqli_query($conn, $delete_query)) {
+					header('Location: ../html/manageEvents.html?message=Wydarzenie zostało usunięte.');
+				} else {
+					echo "Błąd podczas usuwania wydarzenia: " . mysqli_error($conn);
+				}
+			} else {
+				header('Location: ../html/manageEvents.html?message=Wydarzenie o podanym identyfikatorze nie istnieje.');
+			}
+		} else {
+			echo "Błąd CSRF. Żądanie odrzucone.";
+		} 
+	} else {
+		echo "Brak wymaganych parametrów sesji.";
+	}
 }
 
 mysqli_close($conn);

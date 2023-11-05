@@ -16,7 +16,7 @@
         <p id="modalMessage"></p>
       </div>
     </div>
-	
+    
     <h1>Dodaj wydarzenie</h1>
     <form action="../php/addEvent.php" method="post" enctype="multipart/form-data">
         <input type="text" name="event_name" placeholder="Nazwa wydarzenia" required>
@@ -27,9 +27,9 @@
         <select name="category_id" id="category_id" required>
             <!-- Kategorie będą dynamicznie pobierane i wstawiane tutaj -->
         </select>
-        <input type="hidden" name="csrf_token" id="csrf_token">
+        <input type="hidden" name="csrf_token" id="csrf_token1">
         <input type="submit" value="Dodaj wydarzenie">
-	</form>
+    </form>
 
     <h1>Modyfikuj wydarzenie</h1>
     <form action="../php/modifyEvent.php" method="post" enctype="multipart/form-data">
@@ -37,13 +37,14 @@
             <!-- Wydarzenia będą dynamicznie pobierane i wstawiane tutaj -->
         </select>
         <input type="text" name="new_event_name" id="new_event_name" placeholder="Nowa nazwa wydarzenia">
-		<input type="date" name="new_start_date" id="new_start_date">
-		<input type="date" name="new_end_date" id="new_end_date">
-		<textarea name="new_description" id="new_description" placeholder="Nowy opis"></textarea>
-		<input type="file" name="new_image" id="new_image" accept="image/*">
-		<select name="new_category_id" id="new_category_id">
-		</select>
-        <input type="hidden" name="csrf_token" id="csrf_token">
+        <input type="date" name="new_start_date" id="new_start_date">
+        <input type="date" name="new_end_date" id="new_end_date">
+        <textarea name="new_description" id="new_description" placeholder="Nowy opis"></textarea>
+        <input type="file" name="new_image" id="new_image" accept="image/*">
+        <select name="new_category_id" id="new_category_id">
+            <!-- Kategorie będą dynamicznie pobierane i wstawiane tutaj -->
+        </select>
+        <input type="hidden" name="csrf_token" id="csrf_token2">
         <input type="submit" value="Modyfikuj wydarzenie">
     </form>
 
@@ -52,7 +53,7 @@
         <select id="delete_event_id" name="event_id">
             <!-- Wydarzenia będą dynamicznie pobierane i wstawiane tutaj -->
         </select>
-        <input type="hidden" name="csrf_token" id="csrf_token">
+        <input type="hidden" name="csrf_token" id="csrf_token3">
         <input type="submit" value="Usuń wydarzenie">
     </form>
 
@@ -61,14 +62,14 @@
         fetch('../php/getCategories.php')
             .then(response => response.json())
             .then(categories => {
-			    const selectCategory = document.getElementById('category_id');
+                const selectCategory = document.getElementById('category_id');
                 const selectNewCategory = document.getElementById('new_category_id');
 
                 categories.forEach(category => {
                     const option = document.createElement('option');
                     option.value = category.category_id;
                     option.text = category.category_name;
-					selectCategory.appendChild(option.cloneNode(true));
+                    selectCategory.appendChild(option.cloneNode(true));
                     selectNewCategory.appendChild(option.cloneNode(true));
                 });
             });
@@ -95,89 +96,90 @@
 
                     if (selectedEvent) {
                         // Uzupełnienie danych wybranego wydarzenia
-                        document.getElementById('new_event_name').value = selectedEvent.event_name;
-                        document.getElementById('new_start_date').value = selectedEvent.start_date;
-                        document.getElementById('new_end_date').value = selectedEvent.end_date;
-                        document.getElementById('new_description').value = selectedEvent.description;
-                        document.getElementById('new_category_id').value = selectedEvent.category_id;
+                        document.querySelector('input[name="new_event_name"]').value = selectedEvent.event_name;
+						document.querySelector('input[name="new_start_date"]').value = selectedEvent.start_date;
+						document.querySelector('input[name="new_end_date"]').value = selectedEvent.end_date;
+						document.querySelector('textarea[name="new_description"]').value = selectedEvent.description;
 						
-						// TODO
-						const imageInput = document.getElementById('new_image');
-						// Tworzenie Blob i pliku dla obrazu JPEG
-						const imageBlob = new Blob([selectedEvent.image_url], { type: 'image/jpeg' });
-						const imageFile = new File([imageBlob], 'image.jpg', { type: 'image/jpeg' });
-						imageInput.files = [imageFile];
+						// Przejdź przez wszystkie opcje w liście rozwijanej
+						for (let i = 0; i < document.getElementById('new_category_id').options.length; i++) {
+							const option = document.getElementById('new_category_id').options[i];
+							if (option.value == selectedEvent.category_id) {
+								// Jeśli wartość opcji jest równa selectedEvent.category_id, oznacz ją jako wybraną i wyjdź
+								option.selected = true;
+								break;
+							}
+						}
+						
+						// Przekształć dane Blob na URL i przypisz go do <img>
+						const blob = new Blob([selectedEvent.image_url]);
+						const imageUrl = URL.createObjectURL(blob);
+						document.getElementById('new_image').src = imageUrl;						
                     }
                 });
-				
             });
-			
-			// Funkcja do konwersji danych Base64 na Blob
-			function base64toBlob(base64, type) {
-				const binaryString = window.atob(base64);
-				const length = binaryString.length;
-				const byteArray = new Uint8Array(length);
 
-				for (let i = 0; i < length; i++) {
-					byteArray[i] = binaryString.charCodeAt(i);
-				}
+        // Funkcja do konwersji danych Base64 na Blob
+        function base64toBlob(base64, type) {
+            const binaryString = window.atob(base64);
+            const length = binaryString.length;
+            const byteArray = new Uint8Array(length);
 
-				return new Blob([byteArray], { type: type });
-			}
-			
-			window.onload = function() {
-				const selectEvent = document.getElementById('event_id');
-				
-				// Tworzenie i inicjowanie zdarzenia 'change'
-				const changeEvent = new Event('change', { bubbles: true });
-				selectEvent.dispatchEvent(changeEvent);
-			};
+            for (let i = 0; i < length; i++) {
+                byteArray[i] = binaryString.charCodeAt(i);
+            }
+
+            return new Blob([byteArray], { type: type });
+        }
+
+        window.onload = function() {
+            const selectEvent = document.getElementById('event_id');
+            const changeEvent = new Event('change', { bubbles: true });
+            selectEvent.dispatchEvent(changeEvent);
+        };
     </script>
-	
+    
     <script>
         // Obsługa komunikatu z adresu URL
         var params = new URLSearchParams(window.location.search);
         var message = params.get('message');
 
         if (message) {
-            // Pobierz modal i przycisk zamykający
             var modal = document.getElementById("myModal");
             var closeModal = document.getElementById("closeModal");
             var modalMessage = document.getElementById("modalMessage");
 
-            // Ustaw treść komunikatu w modalu
             modalMessage.textContent = message;
 
-            // Po załadowaniu strony, pokaż modal
             window.addEventListener('load', function () {
                 modal.style.display = "block";
             });
 
-            // Kliknij przycisk zamykający, aby schować modal
             closeModal.addEventListener('click', function() {
                 modal.style.display = "none";
             });
         }
     </script>
 
-	<script>
-	// Funkcja do pobierania treści z getSession.php za pomocą AJAX
-	function getSession() {
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", "../php/getSession.php", true);
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === 4 && xhr.status === 200) {
-				var response = JSON.parse(xhr.responseText);
-				document.getElementById("csrf_token").value = response;
-			}
-		};
-		xhr.send();
-	}
+    <script>
+        // Funkcja do pobierania treści z getSession.php za pomocą AJAX
+        function getSession() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "../php/getSession.php", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    document.getElementById("csrf_token1").value = response;
+					document.getElementById("csrf_token2").value = response;
+                    document.getElementById("csrf_token3").value = response;
+                }
+            };
+            xhr.send();
+        }
 
-	// Wywołaj funkcję, aby pobrać zawartość
-	getSession();
-	</script>
-	
+        getSession();
+    </script>
+    
     <footer>
         <p>&copy; 2023 Firma XYZ. Wszelkie prawa zastrzeżone.</p>
     </footer>

@@ -2,7 +2,6 @@
 require_once('databaseConfig.php');
 session_start();
 
-// Uzyskaj dane dostępowe
 $database_config = getDatabaseConfig();
 
 $host = $database_config['db_host'];
@@ -17,44 +16,43 @@ if (!$conn) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['event_name'], $_POST['start_date'], $_POST['end_date'], $_POST['description'], $_POST['category_id'], $_FILES['image'], $_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
-        // Odczytaj dane z formularza
-        $event_name = mysqli_real_escape_string($conn, $_POST['event_name']);
-        $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
-        $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
-        $description = mysqli_real_escape_string($conn, $_POST['description']);
-        $category_id = mysqli_real_escape_string($conn, $_POST['category_id']);
-        $image = $_FILES['image'];
+    if (isset($_POST['event_name'], $_POST['start_date'], $_POST['end_date'], $_POST['description'], $_POST['category_id'], $_FILES['image'], $_POST['csrf_token'])) {
+		if ($_POST['csrf_token'] === $_SESSION['csrf_token']) {
+			$event_name = mysqli_real_escape_string($conn, $_POST['event_name']);
+			$start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
+			$end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
+			$description = mysqli_real_escape_string($conn, $_POST['description']);
+			$category_id = mysqli_real_escape_string($conn, $_POST['category_id']);
 
-        // Przygotuj przygotowane zapytanie z parametrami
-        $insert_query = "INSERT INTO events (event_name, start_date, end_date, description, image_url, category_id) VALUES (?, ?, ?, ?, ?, ?)";
-        // Przygotuj przygotowane zapytanie
-        $stmt = mysqli_prepare($conn, $insert_query);
+			$image = $_FILES['image'];
+			$imageData = file_get_contents($image['tmp_name']);
+			$imageData = mysqli_real_escape_string($conn, $imageData);
 
-        if ($stmt) {
-            // Przygotuj obrazek do wstawienia
-            $imageData = file_get_contents($image['tmp_name']);
+			$insert_query = "INSERT INTO events (event_name, start_date, end_date, description, image_url, category_id) VALUES (?, ?, ?, ?, ?, ?)";
+			$stmt = mysqli_prepare($conn, $insert_query);
 
-            // Ustaw parametry na odpowiednie wartości
-            mysqli_stmt_bind_param($stmt, "ssssbi", $event_name, $start_date, $end_date, $description, $imageData, $category_id);
+			if ($stmt) {
+				mysqli_stmt_bind_param($stmt, "sssssi", $event_name, $start_date, $end_date, $description, $imageData, $category_id);
 
-            // Wykonaj przygotowane zapytanie
-            if (mysqli_stmt_execute($stmt)) {
-                echo "Wydarzenie zostało dodane.";
-				header('Location: ../html/manageEvents.html?message=Wydarzenie%20zostało%20dodane.');
-            } else {
-                echo "Błąd podczas dodawania wydarzenia: " . mysqli_error($conn);
-            }
+				if (mysqli_stmt_execute($stmt)) {
+					header('Location: ../html/manageEvents.html?message=Wydarzenie%20zostało%20dodane.');
+					exit;
+				} else {
+					echo "Błąd podczas dodawania wydarzenia: " . mysqli_error($conn);
+				}
 
-            // Zwolnij zasoby związane z przygotowanym zapytaniem
-            mysqli_stmt_close($stmt);
-        } else {
-            echo "Błąd przygotowywania zapytania: " . mysqli_error($conn);
-        }
+				mysqli_stmt_close($stmt);
+			} else {
+				echo "Błąd przygotowywania zapytania: " . mysqli_error($conn);
+			}
+		} else {
+			echo "Błąd CSRF. Żądanie odrzucone.";
+		}
     } else {
-        echo "Błąd CSRF. Żądanie odrzucone.";
+        echo "Brak wymaganych parametrów sesji.";
     }
 }
+
 
 mysqli_close($conn);
 ?>
