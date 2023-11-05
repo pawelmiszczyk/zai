@@ -52,6 +52,16 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
         .append("svg")
         .attr("width", timelineWidth)
         .attr("height", timelineHeight);
+		
+    // Dodaj linię osi czasu
+    svg.append("line")
+        .attr("class", "timeline")
+        .attr("x1", 0)
+        .attr("y1", yPosition)
+        .attr("x2", timelineWidth)
+        .attr("y2", yPosition)
+        .style("stroke", "black")
+        .style("stroke-width", 2);
 
     var tooltip = d3.select(".event-tooltip");
 
