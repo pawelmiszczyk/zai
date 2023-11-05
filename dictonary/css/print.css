@@ -1,30 +1,17 @@
 /* print.css */
 
-/* Ukryj nagłówek i stopkę strony przy drukowaniu */
-header, footer {
-    display: none;
-}
-
-/* Dostosuj styl wydarzeń do druku */
-main {
-    font-size: 16px;
-    padding: 10px;
-}
-/* Stylizacja dymków wydarzeń */
-.event-tooltip {
-    position: absolute;
-    background: white;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 3px 3px 5px #888888;
-    display: none;
-    max-width: 300px;
-    z-index: 1;
-}
-
 /* Reguły dla wydruku */
 @media print {
+	/* Ukryj nagłówek i stopkę strony przy drukowaniu */
+	header, footer {
+		display: none;
+	}
+
+	/* Dostosuj styl wydarzeń do druku */
+	main {
+		font-size: 16px;
+		padding: 10px;
+	}
     /* Wyłącz ukrywanie dymków wydarzeń podczas drukowania */
     .event-tooltip {
         display: block !important;
@@ -36,11 +23,12 @@ main {
         border-radius: 0 !important;
         max-width: none !important;
         overflow: visible !important;
+		text-align: center !important;
     }
 
     /* Dodaj odstęp między dymkami podczas drukowania */
     .event-tooltip + .event-tooltip {
-        margin-top: 20px;
+        margin-top: 40px;
     }
 }
 /* Ukryj etykietę podczas drukowania */

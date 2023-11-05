@@ -1,3 +1,6 @@
+// Deklaracja obiektu przechowującego dymki do wydruku
+var tooltipsForPrint = [];
+
 // Funkcja do pobierania danych z serwera za pomocą AJAX
 function getEventsData(callback) {
     var xhr = new XMLHttpRequest();
@@ -144,8 +147,28 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
     groups.on("mouseout", function (d) {
         // Ukrywanie dymka po zjechaniu kursorem z lini czasu
         var tooltip = d3.select(".event-tooltip");
+		// Usuń zawartość dymka przy zdarzeniu "mouseout"
+		tooltip.html("");
         tooltip.style("display", "none");
     });
+	
+
+	groups.each(function (d) {
+		var group = d3.select(this);
+		var tooltip = document.createElement("div");
+		tooltip.className = "event-tooltip";
+		tooltip.innerHTML = "<strong>Nazwa:</strong> " + d.event_name + " <strong>Data rozpoczęcia:</strong> " + d.start_date + " <strong>Data zakończenia:</strong> " + d.end_date + "<br><strong>Opis:</strong> " + d.description + "<br>";
+		
+		if (d.image_url) {
+			var img = document.createElement("img");
+			img.src = "data:image/jpeg;base64," + d.image_url;
+			img.width = 600;
+			tooltip.appendChild(img);
+		}
+		
+		tooltipsForPrint.push(tooltip);
+});
+
 }
 
 // Pobierz kategorie i wydarzenia, a następnie wyświetl na osi czasu

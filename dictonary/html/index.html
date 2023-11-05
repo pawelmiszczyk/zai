@@ -51,6 +51,8 @@
 
     <div class="event-tooltip"></div>
 
+	<div id="printTooltipContainer" class="print-tooltip-container"></div>
+
     <script src="../js/displayTimeline.js"></script>
 
     <script>
@@ -85,6 +87,11 @@
 		// Obsługa kliknięcia przycisku "Drukuj wydarzenia"
 		var printButton = document.getElementById("printButton");
 		printButton.addEventListener("click", function() {
+		var printTooltipContainer = document.getElementById("printTooltipContainer");
+
+		tooltipsForPrint.forEach(function (tooltip) {
+			printTooltipContainer.appendChild(tooltip);
+		});
 			// Wywołaj okno drukowania
 			window.print();
 		});
