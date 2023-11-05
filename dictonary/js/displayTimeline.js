@@ -168,7 +168,7 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
 		var group = d3.select(this);
 		var tooltip = document.createElement("div");
 		tooltip.className = "event-tooltip";
-		tooltip.innerHTML = "<strong>Nazwa wydarzenia:</strong> " + d.event_name + " <strong>Data rozpoczęcia:</strong> " + d.start_date + " <strong>Data zakończenia:</strong> " + d.end_date + "<br><strong>Opis:</strong> " + d.description + "<br>";
+		tooltip.innerHTML = "<br><strong>Nazwa wydarzenia:</strong> " + d.event_name + " <strong>Data rozpoczęcia:</strong> " + d.start_date + " <strong>Data zakończenia:</strong> " + d.end_date + "<br><strong>Opis:</strong> " + d.description + "<br><br>";
 		
 		if (d.image_url) {
 			var img = document.createElement("img");
