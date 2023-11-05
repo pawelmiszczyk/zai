@@ -27,7 +27,7 @@
 		page-break-after: always !important;
     }
 
-    /* Dodaj odstęp między dymkami podczas drukowania */
+    /* Odstęp między dymkami podczas drukowania */
     .event-tooltip + .event-tooltip {
         margin-top: 40px;
     }

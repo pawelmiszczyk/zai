@@ -1,3 +1,6 @@
+/* style.css */
+
+/* Główne reguły witryny*/
 html, body {
 	margin: 0;
 	padding: 0;
@@ -55,10 +58,10 @@ footer {
 
 #controls {
     display: flex;
-    justify-content: center; /* Wyśrodkowanie w poziomie */
-    align-items: center; /* Wyśrodkowanie w pionie */
-    background-color: #f0f0f0; /* Dla przykładu - kolor tła */
-    padding: 20px; /* Opcjonalne - dodaje odstęp dookoła elementu */
+    justify-content: center;
+    align-items: center; 
+    background-color: #f0f0f0; 
+    padding: 20px;
 }
 
 .event {
@@ -190,11 +193,11 @@ select {
 
 /* Stylizacja przycisku */
 .center-button {
-    text-align: center; /* Wyśrodkowanie tekstu w poziomie */
-    margin: 0 auto;     /* Wyśrodkowanie przycisku w poziomie */
-    display: block;     /* Ustawienie na blok, aby działało "margin: 0 auto" */
-	margin-top: 20px;   /* Dodanie odstępu górnego */
-	margin-bottom: 20px;   /* Dodanie odstępu dolnego */
+    text-align: center; 
+    margin: 0 auto; 
+    display: block;    
+	margin-top: 20px;   
+	margin-bottom: 20px;  
 }
 
 #sekcja {
@@ -208,8 +211,8 @@ select {
 }
 
 #sekcja h1 {
-    text-align: center; /* Wyśrodkowanie nagłówka w poziomie */
-    margin: 0; /* Usuwa wewnętrzne marginesy nagłówka */
+    text-align: center;
+    margin: 0; 
 }
 
 /* Styl dla linków */
@@ -236,9 +239,9 @@ footer a {
 
 p {
     display: block;
-    text-align: center; /* Wyśrodkowanie w poziomie */
-    margin: 0 auto;     /* Wyśrodkowanie w poziomie, jeśli element ma szerokość ustawioną */
-    padding: 0;         /* Opcjonalnie, usuwa wewnętrzny padding */
+    text-align: center; 
+    margin: 0 auto;     
+    padding: 0;      
 }
 
 .return-button {
