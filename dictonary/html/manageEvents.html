@@ -77,32 +77,37 @@
             });
 
         // Pobierz wydarzenia i wstaw je do select
-        fetch('../php/getEvents.php')
-            .then(response => response.json())
-            .then(events => {
-                const selectEvent = document.getElementById('event_id');
-                const selectDeleteEvent = document.getElementById('delete_event_id');
+		// Inicjalizacja zmiennych i pobranie wydarzeń
+		let events = [];
 
-                events.forEach(event => {
-                    const option = document.createElement('option');
-                    option.value = event.event_id;
-                    option.text = event.event_name;
-                    selectEvent.appendChild(option.cloneNode(true));
-                    selectDeleteEvent.appendChild(option.cloneNode(true));
-                });
+		fetch('../php/getEvents.php')
+			.then(response => response.json())
+			.then(eventsData => {
+				events = eventsData;
 
-                // Obsługa zmiany wybranego wydarzenia w celu uzupełnienia danych
-                selectEvent.addEventListener('change', function() {
-                    const selectedEventId = this.value;
-                    const selectedEvent = events.find(event => event.event_id == selectedEventId);
+				const selectEvent = document.getElementById('event_id');
+				const selectDeleteEvent = document.getElementById('delete_event_id');
 
-                    if (selectedEvent) {
-                        // Uzupełnienie danych wybranego wydarzenia
-                        document.querySelector('input[name="new_event_name"]').value = selectedEvent.event_name;
+				events.forEach(event => {
+					const option = document.createElement('option');
+					option.value = event.event_id;
+					option.text = event.event_name;
+					selectEvent.appendChild(option.cloneNode(true));
+					selectDeleteEvent.appendChild(option.cloneNode(true));
+				});
+
+				// Obsługa zmiany wybranego wydarzenia w celu uzupełnienia danych
+				selectEvent.addEventListener('change', function() {
+					const selectedEventId = this.value;
+					const selectedEvent = events.find(event => event.event_id == selectedEventId);
+
+					if (selectedEvent) {
+						// Uzupełnienie danych wybranego wydarzenia
+						document.querySelector('input[name="new_event_name"]').value = selectedEvent.event_name;
 						document.querySelector('input[name="new_start_date"]').value = selectedEvent.start_date;
 						document.querySelector('input[name="new_end_date"]').value = selectedEvent.end_date;
 						document.querySelector('textarea[name="new_description"]').value = selectedEvent.description;
-						
+
 						// Przejdź przez wszystkie opcje w liście rozwijanej
 						for (let i = 0; i < document.getElementById('new_category_id').options.length; i++) {
 							const option = document.getElementById('new_category_id').options[i];
@@ -112,14 +117,22 @@
 								break;
 							}
 						}
-						
+
 						// Przekształć dane Blob na URL i przypisz go do <img>
 						const blob = new Blob([selectedEvent.image_url]);
 						const imageUrl = URL.createObjectURL(blob);
-						document.getElementById('new_image').src = imageUrl;						
-                    }
-                });
-            });
+						document.getElementById('new_image').src = imageUrl;
+					}
+				});
+
+				// Sprawdź, czy są dostępne wydarzenia i wywołaj obsługę zmiany, jeśli tak
+				if (events.length > 0) {
+					// Pobierz pierwsze wydarzenie z listy i uzupełnij dane na podstawie niego
+					selectEvent.value = events[0].event_id;
+					selectEvent.dispatchEvent(new Event('change'));
+				}
+			});
+
 
         // Funkcja do konwersji danych Base64 na Blob
         function base64toBlob(base64, type) {
