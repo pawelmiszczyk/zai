@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				$stmt = mysqli_prepare($conn, $update_query);
 
 				if ($stmt) {
-					mysqli_stmt_bind_param($stmt, "ssssiii", $new_event_name, $new_start_date, $new_end_date, $new_description, $newImageData, $new_category_id, $event_id);
+					mysqli_stmt_bind_param($stmt, "ssssbii", $new_event_name, $new_start_date, $new_end_date, $new_description, $newImageData, $new_category_id, $event_id);
 
 					if (mysqli_stmt_execute($stmt)) {
 						header('Location: ../html/manageEvents.html?message=Wydarzenie%20zostało%20zaktualizowane.');
