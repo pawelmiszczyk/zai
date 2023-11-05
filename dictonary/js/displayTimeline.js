@@ -30,10 +30,10 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
     d3.select("svg").remove();
 
     // Ustawienia oś czasu
-    var timelineWidth = 1200;
-    var timelineHeight = 100;
+    var timelineWidth = 100; // Szerokość osi czasu
+    var timelineHeight = 600; // Wysokość osi czasu
     var lineHeight = 30; // Zwiększ grubość linii czasu
-    var yPosition = 50; // Stała pozycja y dla linii czasu
+    var xPosition = 50; // Stała pozycja x dla linii czasu
 
     // Tworzenie skali czasu
     var parseTime = d3.timeParse("%Y-%m-%d");
@@ -43,9 +43,9 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
     minDate.setDate(minDate.getDate());
     maxDate.setDate(maxDate.getDate() + 1);
 
-    var xScale = d3.scaleTime()
+    var yScale = d3.scaleTime()
         .domain([minDate, maxDate])
-        .range([0, timelineWidth]);
+        .range([0, timelineHeight]);
 
     // Tworzenie oś czasu
     var svg = d3.select("#timeline")
@@ -56,10 +56,10 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
     // Dodaj linię osi czasu
     svg.append("line")
         .attr("class", "timeline")
-        .attr("x1", 0)
-        .attr("y1", yPosition)
-        .attr("x2", timelineWidth)
-        .attr("y2", yPosition)
+        .attr("x1", xPosition)
+        .attr("y1", 0)
+        .attr("x2", xPosition)
+        .attr("y2", timelineHeight)
         .style("stroke", "black")
         .style("stroke-width", 2);
 
@@ -82,16 +82,16 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
 
     groups.append("rect")
         .attr("class", "event-line")
-        .attr("x", function (d) { return xScale(parseTime(d.start_date)); })
-        .attr("y", yPosition - lineHeight / 2)
-        .attr("width", function (d) {
+        .attr("x", xPosition - lineHeight / 2)
+        .attr("y", function (d) { return yScale(parseTime(d.start_date)); })
+        .attr("width", lineHeight)
+        .attr("height", function (d) {
             var startDate = parseTime(d.start_date);
             var endDate = parseTime(d.end_date);
             startDate.setDate(startDate.getDate());
             endDate.setDate(endDate.getDate() + 1); // Dodajemy jeden dzień
-            return xScale(endDate) - xScale(startDate);
+            return yScale(endDate) - yScale(startDate);
         })
-        .attr("height", lineHeight)
         .style("stroke", function (d) {
             if (d.category_color !== undefined && d.category_color !== null) {
                 return d.category_color.toString();
