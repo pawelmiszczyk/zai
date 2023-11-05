@@ -25,30 +25,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $new_description = mysqli_real_escape_string($conn, $_POST['new_description']);
             $new_category_id = mysqli_real_escape_string($conn, $_POST['new_category_id']);
 
-            $new_image = $_FILES['new_image'];
+            // Przetwarzanie obrazka
+			if(!empty($_FILES["new_image"]["name"])) { 
+				$fileName = basename($_FILES["new_image"]["name"]); 
+				$fileType = pathinfo($fileName, PATHINFO_EXTENSION); 
+				 
+				// Tylko typ obrazka : jpg, png, jpeg, gif 
+				$allowTypes = array('jpg','png','jpeg','gif'); 
+				if(in_array($fileType, $allowTypes)) { 
+					$new_image = $_FILES['new_image']['tmp_name']; 
+					$imgContent = addslashes(file_get_contents($new_image)); 
+				 
+					$update = $conn->query("UPDATE events SET event_name = '$new_event_name', start_date = '$new_start_date', end_date = '$new_end_date', description = '$new_description', image_url = '$imgContent', category_id = '$new_category_id' WHERE event_id = '$event_id'"); 
 
-            // Obsługa przesłanego obrazka
-            if ($new_image['error'] === UPLOAD_ERR_OK) {
-                $newImageData = file_get_contents($new_image['tmp_name']);
-                $newImageData = mysqli_real_escape_string($conn, $newImageData);
-				$update_query = "UPDATE events SET event_name = ?, start_date = ?, end_date = ?, description = ?, image_url = ?, category_id = ? WHERE event_id = ?";
-				$stmt = mysqli_prepare($conn, $update_query);
-
-				if ($stmt) {
-					mysqli_stmt_bind_param($stmt, "ssssbii", $new_event_name, $new_start_date, $new_end_date, $new_description, $newImageData, $new_category_id, $event_id);
-
-					if (mysqli_stmt_execute($stmt)) {
-						header('Location: ../html/manageEvents.html?message=Wydarzenie%20zostało%20zaktualizowane.');
+					if($update){ 
+						header('Location: ../html/manageEvents.html?message=Wydarzenie zostało zaktualizowane.');
 						exit;
-					} else {
+					} else { 
 						echo "Błąd podczas aktualizacji wydarzenia: " . mysqli_error($conn);
-					}
-
-					mysqli_stmt_close($stmt);
-				} else {
-					echo "Błąd przygotowywania zapytania: " . mysqli_error($conn);
-				}
-            } else {
+					}  
+				} else { 
+					header('Location: ../html/manageEvents.html?message=Obsługiwane formaty obrazka to JPG, JPEG, PNG i GIF.');
+				} 
+			} else {
 				$update_query = "UPDATE events SET event_name = ?, start_date = ?, end_date = ?, description = ?, category_id = ? WHERE event_id = ?";
 				$stmt = mysqli_prepare($conn, $update_query);
 

@@ -25,27 +25,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $category_id = mysqli_real_escape_string($conn, $_POST['category_id']);
 
             // Przetwarzanie obrazka
-            $image = $_FILES['image'];
-            $imageTmpName = $image['tmp_name'];
-            $imageData = file_get_contents($imageTmpName); // Pobierz dane binarne obrazka
-
-            $insert_query = "INSERT INTO events (event_name, start_date, end_date, description, image_url, category_id) VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt = mysqli_prepare($conn, $insert_query);
-
-            if ($stmt) {
-                mysqli_stmt_bind_param($stmt, "ssssbi", $event_name, $start_date, $end_date, $description, $imageData, $category_id);
-
-                if (mysqli_stmt_execute($stmt)) {
-                    header('Location: ../html/manageEvents.html?message=Wydarzenie%20zostało%20dodane.');
-                    exit;
-                } else {
-                    echo "Błąd podczas dodawania wydarzenia: " . mysqli_error($conn);
-                }
-
-                mysqli_stmt_close($stmt);
-            } else {
-                echo "Błąd przygotowywania zapytania: " . mysqli_error($conn);
-            }
+			if(!empty($_FILES["image"]["name"])) { 
+				$fileName = basename($_FILES["image"]["name"]); 
+				$fileType = pathinfo($fileName, PATHINFO_EXTENSION); 
+				 
+				// Tylko typ obrazka : jpg, png, jpeg, gif 
+				$allowTypes = array('jpg','png','jpeg','gif'); 
+				if(in_array($fileType, $allowTypes)) { 
+					$image = $_FILES['image']['tmp_name']; 
+					$imgContent = addslashes(file_get_contents($image)); 
+				 
+					$insert = $conn->query("INSERT INTO events (event_name, start_date, end_date, description, image_url, category_id) VALUES ('$event_name', '$start_date', '$end_date', '$description', '$imgContent', '$category_id')"); 
+					 
+					if($insert){ 
+						header('Location: ../html/manageEvents.html?message=Wydarzenie%20zostało%20dodane.');
+						exit;
+					} else { 
+						echo "Błąd podczas dodawania wydarzenia: " . mysqli_error($conn);
+					}  
+				} else { 
+					header('Location: ../html/manageEvents.html?message=Obsługiwane formaty obrazka to JPG, JPEG, PNG i GIF.');
+				} 
+			}else{ 
+				header('Location: ../html/manageEvents.html?message=Brak wybranego obrazka dla wydarzenia.');
+			} 			
         } else {
             echo "Błąd CSRF. Żądanie odrzucone.";
         }
