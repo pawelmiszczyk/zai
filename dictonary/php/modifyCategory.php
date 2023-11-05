@@ -17,24 +17,29 @@ if (!$conn) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['category_id'], $_POST['category_name'], $_POST['new_category_color'], $_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
-		$category_id = mysqli_real_escape_string($conn, $_POST['category_id']);
-        $new_category_name = mysqli_real_escape_string($conn, $_POST['new_category_name']);
-        $new_category_color = $_POST['new_category_color'];
+    if (isset($_POST['category_id'], $_POST['new_category_name'], $_POST['new_category_color'], $_POST['csrf_token'])) {
+		if ($_POST['csrf_token'] == $_SESSION['csrf_token']) {
+			$category_id = mysqli_real_escape_string($conn, $_POST['category_id']);
+			$new_category_name = mysqli_real_escape_string($conn, $_POST['new_category_name']);
+			$new_category_color = $_POST['new_category_color'];
 
-        // Aktualizacja kategorii w tabeli categories
-        $update_query = "UPDATE categories SET category_name = '$new_category_name', category_color = '$new_category_color' WHERE category_id = $category_id";
+			// Aktualizacja kategorii w tabeli categories
+			$update_query = "UPDATE categories SET category_name = '$new_category_name', category_color = '$new_category_color' WHERE category_id = $category_id";
 
-        if (mysqli_query($conn, $update_query)) {
-			header('Location: ../html/manageCategories.html?message=Kategoria%20została%20zaktualizowana.');
+			if (mysqli_query($conn, $update_query)) {
+				header('Location: ../html/manageCategories.html?message=Kategoria%20została%20zaktualizowana.');
 
-        } else {
-            echo "Błąd podczas aktualizacji kategorii: " . mysqli_error($conn);
-        }
-    } else {
+			} else {
+				echo "Błąd podczas aktualizacji kategorii: " . mysqli_error($conn);
+			}
+		} else {
         echo "Błąd CSRF. Żądanie odrzucone.";
-		header('Location: ../html/manageCategories.html?message=Błąd%20CSRF.%20Żądanie%20odrzucone.');
-    }
+		header('Location: ../html/manageCategories.html?message=Błąd CSRF. Żądanie odrzucone.');
+		}
+	} else {
+        echo "Brak ustawionych wymaganych parametrów sesji.";
+		header('Location: ../html/manageCategories.html?message=Brak ustawionych wymaganych parametrów sesji.');
+	}
 }
 
 mysqli_close($conn);
