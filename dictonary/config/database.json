@@ -1,6 +1,6 @@
 {
   "db_host": "localhost",
-  "db_user": "uzytkownik",
-  "db_password": "nLJLrD/EGtKRcwbC",
-  "db_name": "dictionary"
+  "db_user": "user",
+  "db_password": "haslo",
+  "db_name": "timeline"
 }
