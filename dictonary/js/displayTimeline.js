@@ -110,12 +110,12 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
                 return "steelblue";
             }
         });
-
-	groups.on("mouseover", function (d) {
-		var group = d3.select(this);
+	
+	// Funkcja do wyświetlania dymków na kliknięcie
+	function displayTooltip(d) {
 		var tooltip = d3.select(".event-tooltip");
 
-		// Wyświetlanie dymka po najechaniu na linię czasu
+		// Wyświetlanie dymka po kliknięciu na linię czasu
 		tooltip.html("<strong>Nazwa wydarzenia:</strong> " + d.event_name + "<br><strong>Data rozpoczęcia:</strong> " + d.start_date + "<br><strong>Data zakończenia:</strong> " + d.end_date + "<br><strong>Opis:</strong> " + d.description);
 
 		// Dodaj obrazek do dymka, jeśli jest dostępny
@@ -141,22 +141,27 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
 			pageY = window.innerHeight - tooltipHeight;
 		} else if (pageY < 0) {
 			// Jeśli dymek wykracza poza górny kraniec ekranu, wyświetl go na górze
-			pageY = 0;
+			pageY = tooltipHeight;
 		}
 
 		tooltip.style("left", pageX + "px")
 			.style("top", pageY + "px")
 			.style("display", "block");
+	}
+	
+	// Obsługa kliknięcia na wydarzeniu
+	groups.on("click", function (d) {
+		var tooltip = d3.select(".event-tooltip");
+		if (tooltip.style("display") === "block") {
+			// Jeśli dymek jest widoczny, schowaj go po ponownym kliknięciu
+			tooltip.style("display", "none");
+			tooltip.html('');
+		} else {
+			// W przeciwnym razie wyświetl dymek
+			displayTooltip(d);
+		}
 	});
 
-
-    groups.on("mouseout", function (d) {
-        // Ukrywanie dymka po zjechaniu kursorem z lini czasu
-        var tooltip = d3.select(".event-tooltip");
-		// Usuń zawartość dymka przy zdarzeniu "mouseout"
-		tooltip.html("");
-        tooltip.style("display", "none");
-    });
 	
 
 	groups.each(function (d) {

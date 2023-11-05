@@ -92,6 +92,8 @@ footer {
 
 label {
 	display: block;
+	margin-bottom: 10px;
+	font-weight: bold;
 }
 
 input {
@@ -111,7 +113,8 @@ form {
 	background-color: #f9f9f9;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
 	width: 100%;
 	padding: 10px;
 	margin: 5px 0;
@@ -241,4 +244,19 @@ p {
     text-align: center; /* Wyśrodkowanie w poziomie */
     margin: 0 auto;     /* Wyśrodkowanie w poziomie, jeśli element ma szerokość ustawioną */
     padding: 0;         /* Opcjonalnie, usuwa wewnętrzny padding */
+}
+
+.return-button {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+	font-size: 13px;
+	margin-bottom: 20px;
 }

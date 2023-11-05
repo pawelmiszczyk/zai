@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <h1><a href="../html/index.html">Firma XYZ - Intranet</a></h1>
+        <h1><a href="../html/index.html">Firma Czarodziejska Oś - Intranet</a></h1>
     </header>
 
     <div id="myModal" class="modal">
@@ -87,6 +87,10 @@
 		// Obsługa kliknięcia przycisku "Drukuj wydarzenia"
 		var printButton = document.getElementById("printButton");
 		printButton.addEventListener("click", function() {
+		// Ukryj dymek na początku uruchomienia
+		var tooltip = d3.select(".event-tooltip");
+		tooltip.style("display", "none");
+		tooltip.html("");
 		var printTooltipContainer = document.getElementById("printTooltipContainer");
 		// Wyczyszczenie
 		printTooltipContainer.innerHTML = '';
@@ -101,7 +105,7 @@
 	</script>
 
     <footer>
-        <p>&copy; 2023 Firma XYZ. Wszelkie prawa zastrzeżone.</p>
+        <p>&copy; 2023 Firma Czarodziejska Oś. Wszelkie prawa zastrzeżone.</p>
     </footer>
 </body>
 </html>
