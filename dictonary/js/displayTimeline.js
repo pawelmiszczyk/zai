@@ -68,6 +68,7 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
 
     var tooltip = d3.select(".event-tooltip");
 
+	tooltipsForPrint = [];
     // Filtrowanie wydarzeń na podstawie wybranej kategorii
     var filteredEvents = eventsData;
     if (selectedCategory !== "all") {
@@ -110,39 +111,44 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
             }
         });
 
-    groups.on("mouseover", function (d) {
-        var group = d3.select(this);
-        var tooltip = d3.select(".event-tooltip");
+	groups.on("mouseover", function (d) {
+		var group = d3.select(this);
+		var tooltip = d3.select(".event-tooltip");
 
-        // Wyświetlanie dymka po najechaniu na linię czasu
-        tooltip.html("<strong>Nazwa:</strong> " + d.event_name + "<br><strong>Data rozpoczęcia:</strong> " + d.start_date + "<br><strong>Data zakończenia:</strong> " + d.end_date + "<br><strong>Opis:</strong> " + d.description);
+		// Wyświetlanie dymka po najechaniu na linię czasu
+		tooltip.html("<strong>Nazwa wydarzenia:</strong> " + d.event_name + "<br><strong>Data rozpoczęcia:</strong> " + d.start_date + "<br><strong>Data zakończenia:</strong> " + d.end_date + "<br><strong>Opis:</strong> " + d.description);
 
-        // Dodaj obrazek do dymka, jeśli jest dostępny
-        if (d.image_url) {
-            tooltip.append("img")
-                .attr("src", "data:image/jpeg;base64," + d.image_url)
-                .attr("width", 600)
-                .style("display", "block");
-        }
+		// Dodaj obrazek do dymka, jeśli jest dostępny
+		if (d.image_url) {
+			tooltip.append("img")
+				.attr("src", "data:image/jpeg;base64," + d.image_url)
+				.attr("width", 600)
+				.style("display", "block");
+		}
 
-        var tooltipWidth = tooltip.node().getBoundingClientRect().width;
-        var tooltipHeight = tooltip.node().getBoundingClientRect().height;
-        var pageX = d3.event.pageX;
-        var pageY = d3.event.pageY;
+		var tooltipWidth = tooltip.node().getBoundingClientRect().width;
+		var tooltipHeight = tooltip.node().getBoundingClientRect().height;
+		var pageX = d3.event.pageX;
+		var pageY = d3.event.pageY;
 
-        // Sprawdź, czy dymek wykracza poza prawy lub dolny kraniec ekranu
-        if (pageX + tooltipWidth > window.innerWidth) {
-            pageX = window.innerWidth - tooltipWidth;
-        }
+		// Sprawdź, czy dymek wykracza poza prawy kraniec ekranu
+		if (pageX + tooltipWidth > window.innerWidth) {
+			pageX = window.innerWidth - tooltipWidth;
+		}
 
-        if (pageY + tooltipHeight > window.innerHeight) {
-            pageY = window.innerHeight - tooltipHeight;
-        }
+		// Sprawdź, czy dymek wykracza poza dolny kraniec ekranu
+		if (pageY + tooltipHeight > window.innerHeight) {
+			pageY = window.innerHeight - tooltipHeight;
+		} else if (pageY < 0) {
+			// Jeśli dymek wykracza poza górny kraniec ekranu, wyświetl go na górze
+			pageY = 0;
+		}
 
-        tooltip.style("left", pageX + "px")
-            .style("top", pageY + "px")
-            .style("display", "block");
-    });
+		tooltip.style("left", pageX + "px")
+			.style("top", pageY + "px")
+			.style("display", "block");
+	});
+
 
     groups.on("mouseout", function (d) {
         // Ukrywanie dymka po zjechaniu kursorem z lini czasu
@@ -157,7 +163,7 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
 		var group = d3.select(this);
 		var tooltip = document.createElement("div");
 		tooltip.className = "event-tooltip";
-		tooltip.innerHTML = "<strong>Nazwa:</strong> " + d.event_name + " <strong>Data rozpoczęcia:</strong> " + d.start_date + " <strong>Data zakończenia:</strong> " + d.end_date + "<br><strong>Opis:</strong> " + d.description + "<br>";
+		tooltip.innerHTML = "<strong>Nazwa wydarzenia:</strong> " + d.event_name + " <strong>Data rozpoczęcia:</strong> " + d.start_date + " <strong>Data zakończenia:</strong> " + d.end_date + "<br><strong>Opis:</strong> " + d.description + "<br>";
 		
 		if (d.image_url) {
 			var img = document.createElement("img");
@@ -167,6 +173,7 @@ function displayEventsOnTimeline(eventsData, selectedCategory) {
 		}
 		
 		tooltipsForPrint.push(tooltip);
+
 });
 
 }

@@ -24,6 +24,7 @@
         max-width: none !important;
         overflow: visible !important;
 		text-align: center !important;
+		page-break-after: always !important;
     }
 
     /* Dodaj odstęp między dymkami podczas drukowania */

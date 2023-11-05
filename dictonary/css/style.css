@@ -10,7 +10,7 @@ header {
 	text-align: center;
 	background-color: #3498db;
 	color: white;
-	padding: 20px;
+    padding: 20px 0;
 	width: 100%;
 }
 
@@ -140,6 +140,8 @@ input[type="submit"] {
 h1 {
 	color: #333;
 	padding-left: 10px;
+	margin: 0;
+    font-size: 24px;
 }
 
 /* Stylizacja select */
@@ -193,4 +195,50 @@ select {
     display: block;     /* Ustawienie na blok, aby działało "margin: 0 auto" */
 	margin-top: 20px;   /* Dodanie odstępu górnego */
 	margin-bottom: 20px;   /* Dodanie odstępu dolnego */
+}
+
+#sekcja {
+    max-width: 200px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#sekcja h1 {
+    text-align: center; /* Wyśrodkowanie nagłówka w poziomie */
+    margin: 0; /* Opcjonalnie, usuwa wewnętrzne marginesy nagłówka */
+}
+
+/* Dodaj styl dla linków */
+a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 20px;
+}
+
+a:hover {
+    color: #0077b6; /* Zmiana koloru linku po najechaniu myszką */
+}
+
+/* Zaktualizuj styl dla linków w sekcji nagłówka */
+header a {
+    color: #fff; /* Biały kolor linków w nagłówku */
+}
+
+/* Zaktualizuj styl dla linków w stopce */
+footer a {
+    color: #fff; /* Biały kolor linków w stopce */
+}
+
+p {
+    display: block;
+    text-align: center; /* Wyśrodkowanie w poziomie */
+    margin: 0 auto;     /* Wyśrodkowanie w poziomie, jeśli element ma szerokość ustawioną */
+    padding: 0;         /* Opcjonalnie, usuwa wewnętrzny padding */
 }

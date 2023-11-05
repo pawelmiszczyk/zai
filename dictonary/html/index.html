@@ -88,6 +88,8 @@
 		var printButton = document.getElementById("printButton");
 		printButton.addEventListener("click", function() {
 		var printTooltipContainer = document.getElementById("printTooltipContainer");
+		// Wyczyszczenie
+		printTooltipContainer.innerHTML = '';
 
 		tooltipsForPrint.forEach(function (tooltip) {
 			printTooltipContainer.appendChild(tooltip);
@@ -95,6 +97,7 @@
 			// Wywołaj okno drukowania
 			window.print();
 		});
+
 	</script>
 
     <footer>
