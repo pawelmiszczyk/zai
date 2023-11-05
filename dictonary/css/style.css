@@ -156,7 +156,6 @@ select {
 	border-radius: 3px;
 }
 
-/* Styl modalu */
 .modal {
   display: none;
   position: fixed;
@@ -167,7 +166,6 @@ select {
   background-color: rgba(0,0,0,0.7);
 }
 
-/* Styl zawartości modalu */
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto;
@@ -178,7 +176,6 @@ select {
   border-radius: 5px;
 }
 
-/* Styl przycisku zamykającego modal */
 .close {
   color: #aaa;
   float: right;
@@ -212,10 +209,10 @@ select {
 
 #sekcja h1 {
     text-align: center; /* Wyśrodkowanie nagłówka w poziomie */
-    margin: 0; /* Opcjonalnie, usuwa wewnętrzne marginesy nagłówka */
+    margin: 0; /* Usuwa wewnętrzne marginesy nagłówka */
 }
 
-/* Dodaj styl dla linków */
+/* Styl dla linków */
 a {
     color: #3498db;
     text-decoration: none;
@@ -229,12 +226,10 @@ a:hover {
     color: #0077b6; /* Zmiana koloru linku po najechaniu myszką */
 }
 
-/* Zaktualizuj styl dla linków w sekcji nagłówka */
 header a {
     color: #fff; /* Biały kolor linków w nagłówku */
 }
 
-/* Zaktualizuj styl dla linków w stopce */
 footer a {
     color: #fff; /* Biały kolor linków w stopce */
 }
@@ -259,4 +254,8 @@ p {
     cursor: pointer;
 	font-size: 13px;
 	margin-bottom: 20px;
+}
+
+label[for="categorySelect"] {
+    padding: 10px;
 }
