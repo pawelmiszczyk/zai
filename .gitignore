@@ -1,3 +1,7 @@
 # ignore all logs
 *.log
 *.bak
+timeline/node_modules
+timeline/.vscode
+timeline/.angular
+timeline/dist
