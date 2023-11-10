@@ -10,10 +10,18 @@ import { MatTableModule } from '@angular/material/table';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TimelineComponent } from './timeline/timeline.component';
+import { EventManagementComponent } from './event-management/event-management.component';
+import { CategoryManagementComponent } from './category-management/category-management.component';
+import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TimelineComponent,
+    EventManagementComponent,
+    CategoryManagementComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +31,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSortModule,
     MatTableModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    RouterModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' }
