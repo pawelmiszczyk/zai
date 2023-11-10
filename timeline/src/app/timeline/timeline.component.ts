@@ -5,6 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { isBefore, isAfter, isSameDay } from 'date-fns';
 import { TimelineEvent } from '../model/timeline-event'
 import { EventService } from '../services/event.service';
+import { Category } from '../model/category';
+import { CategoryService } from '../services/category.service';
 
 @Component({
   selector: 'app-timeline',
@@ -16,21 +18,24 @@ export class TimelineComponent implements OnInit {
   title = 'Timeline';
   events: TimelineEvent[];
   filteredEvents: TimelineEvent[];
+  categories: Category[];
+  categoryMap: Map<number, string> = new Map();
   startDate: Date | null;
   endDate: Date | null;
   sortBy: string;
-  displayedColumns: string[] = ['event_id', 'event_name', 'start_date', 'end_date', 'description', 'category_id'];
+  displayedColumns: string[] = ['event_id', 'event_name', 'start_date', 'end_date', 'description', 'category_name'];
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   dataSource: MatTableDataSource<TimelineEvent>;
 
-  constructor(private EventService: EventService) {
+  constructor(private EventService: EventService, private CategoryService: CategoryService) {
     this.startDate = null;
     this.endDate = null;
     this.sortBy = 'event_id';
     this.events = [];
     this.filteredEvents = [...this.events];
     this.dataSource = new MatTableDataSource<TimelineEvent>(this.filteredEvents);
+    this.categories = [];
   }
 
   ngOnInit(): void {
@@ -40,19 +45,9 @@ export class TimelineComponent implements OnInit {
       this.dataSource = new MatTableDataSource<TimelineEvent>(this.filteredEvents);
       this.dataSource.sort = this.sort;
     });
-  }
-
-  editEvent(event: TimelineEvent): void {
-    this.EventService.editEvent(event).subscribe(() => {
-      // Aktualizacja danych po edycji
-      // this.filterByDate(); // Jeśli potrzebne
-    });
-  }
-  
-  deleteEvent(eventId: number): void {
-    this.EventService.deleteEvent(eventId).subscribe(() => {
-      // Aktualizacja danych po usunięciu
-      // this.filterByDate(); // Jeśli potrzebne
+    this.CategoryService.getCategories().subscribe((categories) => {
+      this.categories = categories;
+      this.categoryMap = new Map(categories.map(category => [category.category_id, category.category_name]));
     });
   }
 

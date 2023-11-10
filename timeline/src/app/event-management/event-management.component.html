@@ -1,1 +1,55 @@
-<p>event-management works!</p>
+<div class="event-management-container">
+    <h2>Zarządzanie wydarzeniami</h2>
+
+    <!-- Dodawanie nowego wydarzenia -->
+    <div class="add-event">
+    <h3>Nowe wydarzenie</h3>
+    <form (ngSubmit)="addEvent()" #eventForm="ngForm">
+        <div class="form-group">
+        <label for="eventName">Nazwa wydarzenia:</label>
+        <input type="text" id="eventName" name="eventName" [(ngModel)]="newEvent.event_name" required>
+        </div>
+
+        <div class="form-group">
+        <label for="startDate">Data rozpoczęcia:</label>
+        <input type="date" id="startDate" name="startDate" [(ngModel)]="newEvent.start_date" required>
+        </div>
+
+        <div class="form-group">
+        <label for="endDate">Data zakończenia:</label>
+        <input type="date" id="endDate" name="endDate" [(ngModel)]="newEvent.end_date" required>
+        </div>
+
+        <div class="form-group">
+        <label for="description">Opis:</label>
+        <textarea id="description" name="description" [(ngModel)]="newEvent.description" required></textarea>
+        </div>
+
+        <div class="form-group">
+        <label for="imageUrl">Image URL:</label>
+        <input type="text" id="imageUrl" name="imageUrl" [(ngModel)]="newEvent.image_url" required>
+        </div>
+
+        <div class="form-group">
+        <label for="categoryId">Nazwa kategorii:</label>
+        <select id="categoryId" name="categoryId" [(ngModel)]="newEvent.category_id" required>
+            <option *ngFor="let category of categories" [value]="category.category_id">{{ category.category_name }}</option>
+        </select>
+        </div>
+
+        <button type="submit" [disabled]="eventForm.invalid || !newEvent.category_id">Dodaj wydarzenie</button>
+    </form>
+    </div>
+</div>
+
+<!-- Lista istniejących wydarzeń -->
+<div class="event-list">
+<h3>Lista wydarzeń</h3>
+<ul>
+    <li *ngFor="let event of events">
+    {{ event.event_name }}
+    <button (click)="editEvent(event.event_id)">Edytuj</button>
+    <button (click)="deleteEvent(event.event_id)">Usuń</button>
+    </li>
+</ul>
+</div>

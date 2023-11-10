@@ -25,16 +25,16 @@ export class CategoryService {
   }
     
 
-  getEvents(): Observable<Category[]> {
+  getCategories(): Observable<Category[]> {
     return of(this.categories);
   }
 
-  editEvent(event: Category): Observable<void> {
+  editCategory(event: Category): Observable<void> {
     // Implementacja edycji kategorii
     return of();
   }
 
-  deleteEvent(eventId: number): Observable<void> {
+  deleteCategory(eventId: number): Observable<void> {
     // Implementacja usuwania kategorii
     return of();
   }}
