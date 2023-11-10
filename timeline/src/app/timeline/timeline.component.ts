@@ -54,8 +54,8 @@ export class TimelineComponent implements OnInit {
   filterByDate(): void {
     if (this.startDate !== null && this.endDate !== null) {
       this.filteredEvents = this.events.filter(event => {
-        const eventDateStart = new Date(event.start_date);
-        const eventDateEnd = new Date(event.end_date);
+        const eventDateStart = new Date(event.start_date ?? new Date());
+        const eventDateEnd = new Date(event.end_date ?? new Date());
         return (isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!)) 
             && (isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!));
       });

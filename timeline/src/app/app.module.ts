@@ -15,13 +15,20 @@ import { EventManagementComponent } from './event-management/event-management.co
 import { CategoryManagementComponent } from './category-management/category-management.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
+import { EventModalComponent } from './event-modal/event-modal.component';
+import { CategoryModalComponent } from './category-modal/category-modal.component';
+
+import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     TimelineComponent,
     EventManagementComponent,
-    CategoryManagementComponent
+    CategoryManagementComponent,
+    EventModalComponent,
+    CategoryModalComponent
   ],
   imports: [
     BrowserModule,
@@ -33,8 +40,12 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    CommonModule,
+    MatDialogModule
   ],
+  exports: [EventModalComponent],
+  entryComponents: [EventModalComponent],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' }
   ],
