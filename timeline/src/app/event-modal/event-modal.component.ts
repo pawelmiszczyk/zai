@@ -28,7 +28,13 @@ export class EventModalComponent {
   ) {
     this.categories = data.categories;
     if (data.event !== undefined && data.event !== null) {
-      this.newEvent = data.event
+      this.newEvent.event_id = data.event.event_id;
+      this.newEvent.event_name = data.event.event_name;
+      this.newEvent.start_date = data.event.start_date;
+      this.newEvent.end_date = data.event.end_date;
+      this.newEvent.description = data.event.description;
+      this.newEvent.image_url = data.event.image_url;
+      this.newEvent.category_id = data.event.category_id;
     }
   }
 

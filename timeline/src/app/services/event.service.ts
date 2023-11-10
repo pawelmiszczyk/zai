@@ -57,7 +57,7 @@ export class EventService {
   }
 
 
-  editEvent(modifiedEvent: TimelineEvent): Observable<string> {
+  editEvent(modifiedEvent: TimelineEvent): Observable<String> {
     const index = this.events.findIndex(event => event.event_id === modifiedEvent.event_id);
     if (index !== -1) {
       this.events = this.events.map((event, i) => (i === index ? modifiedEvent : event));
@@ -71,6 +71,11 @@ export class EventService {
   deleteEvent(eventId: number): Observable<String> {
     this.events = this.events.filter(event => event.event_id !== eventId);
     return of("Wydarzenie zostało usunięte.");
+  }
+
+  isExistsEventAndCategory(categoryId: number) {
+    const index = this.events.findIndex(event => event.category_id === categoryId);
+    return (index === -1);
   }
 }
 

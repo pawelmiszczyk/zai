@@ -1,1 +1,20 @@
-<p>category-management works!</p>
+<div class="category-management-container">
+    <h2>Zarządzanie kategoriami</h2>
+    <div class="category-list">
+      <div class="category-list-header">
+        <button class="add-category-btn" (click)="openAddCategoryModal()">Dodaj kategorię</button>
+      </div>
+    <ul class="category-list">
+      <h3>Lista kategorii</h3>
+      <li *ngFor="let category of categories" class="category-item">
+        <div class="event-details">
+          {{ category.category_name }}
+        </div>
+        <div class="buttons">
+          <button class="modify-button" (click)="openEditCategoryModal(category)">Edytuj</button>
+          <button class="cancel-button" (click)="deleteCategory(category.category_id)">Usuń</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

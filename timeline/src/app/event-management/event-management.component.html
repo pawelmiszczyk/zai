@@ -1,13 +1,11 @@
 <div class="event-management-container">
     <h2>Zarządzanie wydarzeniami</h2>
-
-    <!-- Lista istniejących wydarzeń -->
     <div class="event-list">
         <div class="event-list-header">
-            <h3>Lista wydarzeń</h3>
-            <button class="add-event-btn" (click)="openAddEventModal()">Dodaj wydarzenie</button>
+          <button class="add-event-btn" (click)="openAddEventModal()">Dodaj wydarzenie</button>
         </div>
         <ul class="events-list">
+            <h3>Lista wydarzeń</h3>
             <li *ngFor="let event of events" class="event-item">
                 <div class="event-details">
                     {{ event.event_name }}

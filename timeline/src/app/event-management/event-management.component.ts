@@ -15,20 +15,10 @@ export class EventManagementComponent implements OnInit {
 
   events: TimelineEvent[];
   categories: Category[];
-  newEvent: TimelineEvent;
 
   constructor(private dialog: MatDialog, private eventService: EventService, private categoryService: CategoryService) {
     this.events = [];
     this.categories = [];
-    this.newEvent = {
-      event_id: 0,
-      event_name: '',
-      start_date: new Date(),
-      end_date: new Date(),
-      description: '',
-      image_url: '',
-      category_id: 0
-    };
   }
 
   ngOnInit(): void {
@@ -48,19 +38,17 @@ export class EventManagementComponent implements OnInit {
     });
   }
 
-  addEvent(): void {
-    this.eventService.addEvent(this.newEvent).subscribe(() => {
-      this.loadEvents(); // Odśwież listę po dodaniu
-      // Zresetuj formularz
-      this.newEvent = {
-        event_id: 0,
-        event_name: '',
-        start_date: new Date(),
-        end_date: new Date(),
-        description: '',
-        image_url: '',
-        category_id: 0
-      };
+  openAddEventModal(): void {
+    const dialogRef = this.dialog.open(EventModalComponent, {
+      width: '400px', 
+      data: { categories: this.categories, title: "Dodaj nowe wydarzenie", button_name: "Dodaj" }
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.eventService.addEvent(result);
+        this.loadEvents();
+      }
     });
   }
 
@@ -72,27 +60,14 @@ export class EventManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.eventService.editEvent(result);
+        this.loadEvents();
       }
     });
   }
 
   deleteEvent(eventId: number): void {
-    // Implementacja usuwania wydarzenia
     this.eventService.deleteEvent(eventId).subscribe(() => {
-      this.loadEvents(); // Odśwież listę po usunięciu
-    });
-  }
-
-  openAddEventModal(): void {
-    const dialogRef = this.dialog.open(EventModalComponent, {
-      width: '400px', 
-      data: { categories: this.categories, title: "Dodaj nowe wydarzenie", button_name: "Dodaj" }
-    });
-  
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.eventService.addEvent(result);
-      }
+      this.loadEvents();
     });
   }
   

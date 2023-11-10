@@ -1,1 +1,17 @@
-<p>category-modal works!</p>
+<div class="modal-content">
+  <h3>{{ isNewCategory ? 'Dodaj kategorię' : 'Edytuj kategorię' }}</h3>
+  <form #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)" class="form-columns">
+    <div class="form-group">
+      <label for="categoryName">Nazwa kategorii:</label>
+      <input type="text" id="categoryName" name="categoryName" [(ngModel)]="currentCategory.category_name" required>
+    </div>
+    <div class="form-group">
+      <label for="categoryColor">Kolor kategorii:</label>
+      <input type="color" id="categoryColor" name="categoryColor" [(ngModel)]="currentCategory.category_color" required>
+    </div>
+    <div class="button-group">
+      <button type="submit" [disabled]="categoryForm.invalid">{{ isNewCategory ? 'Dodaj' : 'Zapisz zmiany' }}</button>
+      <button class="cancel-button" type="button" (click)="onCancel()">Anuluj</button>
+    </div>
+  </form>
+</div>
