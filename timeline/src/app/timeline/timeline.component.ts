@@ -23,7 +23,7 @@ export class TimelineComponent implements OnInit {
   startDate: Date | null;
   endDate: Date | null;
   sortBy: string;
-  displayedColumns: string[] = ['event_id', 'event_name', 'start_date', 'end_date', 'description', 'category_name'];
+  displayedColumns: string[] = ['event_id', 'event_name', 'start_date', 'end_date', 'description', 'category_name', 'image'];
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   dataSource: MatTableDataSource<TimelineEvent>;

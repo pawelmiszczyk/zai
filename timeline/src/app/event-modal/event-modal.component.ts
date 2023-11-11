@@ -16,7 +16,7 @@ export class EventModalComponent {
     start_date: null,
     end_date: null,
     description: '',
-    image_url: '',
+    image: null,
     category_id: 0
   };
 
@@ -34,7 +34,7 @@ export class EventModalComponent {
       this.newEvent.start_date = data.event.start_date;
       this.newEvent.end_date = data.event.end_date;
       this.newEvent.description = data.event.description;
-      this.newEvent.image_url = data.event.image_url;
+      this.newEvent.image = data.event.image_url;
       this.newEvent.category_id = data.event.category_id;
     }
   }
@@ -72,6 +72,25 @@ export class EventModalComponent {
     } else {
       this.dateError = false; 
     }
+  }
+
+  onImageSelected(event: any): void {
+    const fileInput = event.target;
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      this.readAndSetImage(file);
+    }
+  }
+
+  readAndSetImage(file: File): void {
+    const reader = new FileReader();
+    
+    reader.onload = (e: any) => {
+      // e.target.result zawiera dane obrazka w formie base64
+      this.newEvent.image = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
   }
 
 }

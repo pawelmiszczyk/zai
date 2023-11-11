@@ -4,6 +4,6 @@ export interface TimelineEvent {
     start_date: Date | null;
     end_date: Date | null;
     description: string;
-    image_url: string; 
+    image: File | null; 
     category_id: number;
 }
