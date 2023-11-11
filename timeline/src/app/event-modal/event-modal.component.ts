@@ -21,6 +21,7 @@ export class EventModalComponent {
   };
 
   categories: any[];
+  dateError: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<EventModalComponent>,
@@ -40,7 +41,6 @@ export class EventModalComponent {
 
   onSubmit(): void {
     // TODO dodać warunek na sprawdzenie dat
-    console.log(this.newEvent)
     this.dialogRef.close(this.newEvent);
   }
 
@@ -48,7 +48,7 @@ export class EventModalComponent {
     this.dialogRef.close();
   }
 
-  formatDate(date: Date | null): string {
+  formatDate(date: Date | null): String {
     return date ? new Date(date).toISOString().substring(0, 10) : '';
 }
 
@@ -56,11 +56,21 @@ export class EventModalComponent {
     if (event) {
       this.newEvent.start_date = event;
     }
+    this.checkDates();
   }
 
   updateEndDate(event: any): void {
     if (event) {
       this.newEvent.end_date = event;
+    }
+    this.checkDates();
+  }
+
+  checkDates(): void {
+    if (this.newEvent.start_date && this.newEvent.end_date && new Date(this.newEvent.start_date) > new Date(this.newEvent.end_date)) {
+      this.dateError = true; 
+    } else {
+      this.dateError = false; 
     }
   }
 

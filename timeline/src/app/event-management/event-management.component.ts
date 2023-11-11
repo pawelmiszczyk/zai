@@ -45,7 +45,6 @@ export class EventManagementComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)
       if (result) {
         this.eventService.addEvent(result);
         this.loadEvents();
