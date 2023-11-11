@@ -18,7 +18,7 @@
 
         <div class="form-group">
             <label for="description">Opis:</label>
-            <textarea id="description" name="description" [ngModel]="newEvent.description" required></textarea>
+            <textarea id="description" name="description" [(ngModel)]="newEvent.description" required></textarea>
         </div>
 
         <div class="form-group">
@@ -29,7 +29,7 @@
         <div class="form-group">
             <label for="categoryId">Nazwa kategorii:</label>
             <select id="categoryId" name="categoryId" [(ngModel)]="newEvent.category_id" required>
-                <option *ngFor="let category of categories" [value]="category.category_id">{{ category.category_name }}</option>
+                <option *ngFor="let category of categories" [ngValue]="category.category_id">{{ category.category_name }}</option>
             </select>
         </div>
     </form>

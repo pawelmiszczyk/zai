@@ -52,6 +52,7 @@ export class EventService {
 
   addEvent(event: TimelineEvent): Observable<String> {
     event.event_id = ++this.counterOfEvents;
+    console.log(event)
     this.events.push(event);
     return of("Wydarzenie zostało dodane.");
   }

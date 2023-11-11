@@ -40,6 +40,7 @@ export class EventModalComponent {
 
   onSubmit(): void {
     // TODO dodać warunek na sprawdzenie dat
+    console.log(this.newEvent)
     this.dialogRef.close(this.newEvent);
   }
 
@@ -52,14 +53,14 @@ export class EventModalComponent {
 }
 
   updateStartDate(event: any): void {
-    if (event && event.target && event.target.value) {
-      this.newEvent.start_date = event.target.value;
+    if (event) {
+      this.newEvent.start_date = event;
     }
   }
 
   updateEndDate(event: any): void {
-    if (event && event.target && event.target.value) {
-      this.newEvent.end_date = event.target.value;
+    if (event) {
+      this.newEvent.end_date = event;
     }
   }
 
