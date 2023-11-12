@@ -21,6 +21,11 @@ import { CategoryModalComponent } from './category-modal/category-modal.componen
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { AccordionModule } from 'primeng/accordion';
+import { PanelModule } from 'primeng/panel';
+import { TimelineModule } from 'primeng/timeline';
+import { CardModule } from "primeng/card"; 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +47,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     AppRoutingModule,
     RouterModule,
     CommonModule,
-    MatDialogModule
+    MatDialogModule,
+    AccordionModule,
+    PanelModule,
+    TimelineModule,
+    CardModule
   ],
   exports: [EventModalComponent],
   entryComponents: [EventModalComponent],
