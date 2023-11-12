@@ -1,16 +1,18 @@
-<header>
-    <div class="logo">Logo Firmy</div>
-    <nav>
-      <a routerLink="/timeline">Oś czasu</a>
-      <a routerLink="/event-management">Zarządzanie wydarzeniami</a>
-      <a routerLink="/category-management">Zarządzanie kategoriami</a>
-    </nav>
-  </header>
-
-  <main>
-    <router-outlet></router-outlet>
-  </main>
-
+<body>
+  <div id="content-container">
+    <header>
+      <div class="logo">Logo Firmy</div>
+      <nav>
+        <a routerLink="/timeline">Oś czasu</a>
+        <a routerLink="/event-management">Zarządzanie wydarzeniami</a>
+        <a routerLink="/category-management">Zarządzanie kategoriami</a>
+      </nav>
+    </header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </div>
   <footer>
     <p>&copy; 2023 Firma. Wszelkie prawa zastrzeżone.</p>
   </footer>
+</body>
