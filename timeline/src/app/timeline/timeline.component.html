@@ -1,6 +1,6 @@
 <div class="container">
     <div class="card"> 
-    <h2>Wydarzenia na osi czasu</h2> 
+    <h1>Wydarzenia na osi czasu</h1> 
     <p-timeline [value]="filteredEvents" align="alternate"> 
       <ng-template pTemplate="content" let-event>  
         <h5>{{ event.event_name }}</h5>
@@ -13,6 +13,7 @@
   </div>
 
     <div class="filter">
+      <h1>Kryteria datowe filtrowania wydarzeń</h1> 
       <mat-form-field>
         <mat-label>Od:</mat-label>
         <input matInput [matDatepicker]="startDatePicker" (dateInput)="addStartDateEvent($event)" [(ngModel)]="startDate">

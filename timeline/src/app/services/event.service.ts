@@ -15,8 +15,8 @@ export class EventService {
       {
         event_id: 1,
         event_name: 'Przykładowe wydarzenie 1',
-        start_date: new Date('06-11-2023'),
-        end_date: new Date('07-11-2023'),
+        start_date: new Date('11-05-2023'),
+        end_date: new Date('11-07-2023'),
         description: 'To jest przykładowe wydarzenie 1',
         image: null,
         category_id: 1,
@@ -24,8 +24,8 @@ export class EventService {
       {
         event_id: 2,
         event_name: 'Przykładowe wydarzenie 2',
-        start_date: new Date('01-11-2023'),
-        end_date: new Date('05-11-2023'),
+        start_date: new Date('11-01-2023'),
+        end_date: new Date('11-03-2023'),
         description: 'To jest przykładowe wydarzenie 2',
         image: null,
         category_id: 2,
@@ -33,8 +33,8 @@ export class EventService {
       {
         event_id: 3,
         event_name: 'Przykładowe wydarzenie 3',
-        start_date: new Date('01-12-2023'),
-        end_date: new Date('10-12-2023'),
+        start_date: new Date('11-10-2023'),
+        end_date: new Date('11-11-2023'),
         description: 'To jest przykładowe wydarzenie 2',
         image: null,
         category_id: 2,

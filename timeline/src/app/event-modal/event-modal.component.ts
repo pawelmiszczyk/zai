@@ -48,9 +48,16 @@ export class EventModalComponent {
     this.dialogRef.close();
   }
 
-  formatDate(date: Date | null): String {
-    return date ? new Date(date).toISOString().substring(0, 10) : '';
-}
+  formatDate(date: Date | null): string {
+    if (date !== null) {
+      const localDateTime = new Date(date).toLocaleString('en-US', { timeZone: 'Europe/Belgrade' });
+      const isoDateTimePlusOneHour = new Date(localDateTime);
+      isoDateTimePlusOneHour.setHours(isoDateTimePlusOneHour.getHours() + 1);
+      return isoDateTimePlusOneHour.toISOString().substring(0, 10);
+    }
+  
+    return '';
+  }
 
   updateStartDate(event: any): void {
     if (event) {

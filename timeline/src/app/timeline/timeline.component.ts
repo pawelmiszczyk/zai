@@ -49,6 +49,10 @@ export class TimelineComponent implements OnInit {
       this.categories = categories;
       this.categoryMap = new Map(categories.map(category => [category.category_id, category.category_name]));
     });
+    // Sortowanie po dacie rozpoczęcia wydarzenia dla wydarzeń na osi czasu
+    this.filteredEvents = this.filteredEvents.sort((a, b) =>
+    new Date(a.start_date ?? new Date()).getTime() - new Date(b.start_date ?? new Date()).getTime()
+    );
   }
 
   filterByDate(): void {
@@ -56,14 +60,30 @@ export class TimelineComponent implements OnInit {
       this.filteredEvents = this.events.filter(event => {
         const eventDateStart = new Date(event.start_date ?? new Date());
         const eventDateEnd = new Date(event.end_date ?? new Date());
-        return (isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!)) 
-            && (isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!));
+        const isAfterStartDate = isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
+        const isBeforeEndDate = isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
+  
+        return isAfterStartDate && isBeforeEndDate;
+      });
+    } else if (this.startDate !== null) {
+      // Filtrowanie tylko po dacie od
+      this.filteredEvents = this.events.filter(event => {
+        const eventDateStart = new Date(event.start_date ?? new Date());
+        return isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
+      });
+    } else if (this.endDate !== null) {
+      // Filtrowanie tylko po dacie do
+      this.filteredEvents = this.events.filter(event => {
+        const eventDateEnd = new Date(event.end_date ?? new Date());
+        return isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
       });
     } else {
       this.filteredEvents = this.events;
     }
+  
     this.dataSource.data = this.filteredEvents;
   }
+  
 
   addStartDateEvent(event: MatDatepickerInputEvent<Date>) {
     this.startDate = event.value;
