@@ -12,21 +12,22 @@
     </p-timeline> 
   </div>
 
+  <h1>Kryteria datowe filtrowania wydarzeń</h1> 
     <div class="filter">
-      <h1>Kryteria datowe filtrowania wydarzeń</h1> 
       <mat-form-field>
         <mat-label>Od:</mat-label>
-        <input matInput [matDatepicker]="startDatePicker" (dateInput)="addStartDateEvent($event)" [(ngModel)]="startDate">
+        <input matInput [matDatepicker]="startDatePicker" (dateInput)="addStartDateEvent($event)" [(ngModel)]="startDate" readonly>
         <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #startDatePicker></mat-datepicker>
       </mat-form-field>
     
       <mat-form-field>
         <mat-label>Do:</mat-label>
-        <input matInput [matDatepicker]="endDatePicker" (dateInput)="addEndDateEvent($event)" [(ngModel)]="endDate">
+        <input matInput [matDatepicker]="endDatePicker" (dateInput)="addEndDateEvent($event)" [(ngModel)]="endDate" readonly>
         <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #endDatePicker></mat-datepicker>
       </mat-form-field>
+
     </div>
 
     <h1>Wydarzenia z wybranego zakresu czasowego</h1>
@@ -52,17 +53,18 @@
         <td mat-cell *matCellDef="let row">{{ row.description }}</td>
       </ng-container>
       <ng-container matColumnDef="category_name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Kategoria</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blocked-column">Kategoria</th>
         <td mat-cell *matCellDef="let row">{{ categoryMap.get(row.category_id) }}</td>
       </ng-container>
       <ng-container matColumnDef="image">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Obrazek</th>
+        <th mat-header-cell *matHeaderCellDef class="blocked-column">Obrazek</th>
         <td mat-cell *matCellDef="let row">
           <img *ngIf="row.image" [src]="row.image" alt="Obrazek" class="max-size-img">
         </td>
       </ng-container>
-      
+    
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    
   </div>

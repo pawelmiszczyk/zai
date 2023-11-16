@@ -23,7 +23,7 @@ export class TimelineComponent implements OnInit {
   startDate: Date | null;
   endDate: Date | null;
   sortBy: string;
-  displayedColumns: string[] = ['event_id', 'event_name', 'start_date', 'end_date', 'description', 'category_name', 'image'];
+  displayedColumns: string[] = ['event_name', 'start_date', 'end_date', 'description', 'category_name', 'image'];
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   dataSource: MatTableDataSource<TimelineEvent>;
@@ -49,10 +49,8 @@ export class TimelineComponent implements OnInit {
       this.categories = categories;
       this.categoryMap = new Map(categories.map(category => [category.category_id, category.category_name]));
     });
-    // Sortowanie po dacie rozpoczęcia wydarzenia dla wydarzeń na osi czasu
-    this.filteredEvents = this.filteredEvents.sort((a, b) =>
-    new Date(a.start_date ?? new Date()).getTime() - new Date(b.start_date ?? new Date()).getTime()
-    );
+    this.filterByDate();
+    this.sortByStartDate();
   }
 
   filterByDate(): void {
@@ -83,7 +81,6 @@ export class TimelineComponent implements OnInit {
   
     this.dataSource.data = this.filteredEvents;
   }
-  
 
   addStartDateEvent(event: MatDatepickerInputEvent<Date>) {
     this.startDate = event.value;
@@ -94,4 +91,19 @@ export class TimelineComponent implements OnInit {
     this.endDate = event.value;
     this.filterByDate();
   }
+
+  clearDates(): void {
+    this.startDate = null;
+    this.endDate = null;
+    this.filterByDate();
+    this.sortByStartDate();
+  }
+
+  // Sortowanie po dacie rozpoczęcia wydarzenia dla wydarzeń na osi czasu
+  sortByStartDate(): void {
+    this.filteredEvents = this.filteredEvents.sort((a, b) =>
+    new Date(a.start_date ?? new Date()).getTime() - new Date(b.start_date ?? new Date()).getTime()
+    );
+  }
+
 }
