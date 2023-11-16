@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
 
 
 import { AppComponent } from './app.component';
@@ -51,7 +52,8 @@ import { CardModule } from "primeng/card";
     AccordionModule,
     PanelModule,
     TimelineModule,
-    CardModule
+    CardModule,
+    MatSelectModule
   ],
   exports: [EventModalComponent],
   entryComponents: [EventModalComponent],

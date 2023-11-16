@@ -28,6 +28,16 @@
         <mat-datepicker #endDatePicker></mat-datepicker>
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-label>Kategoria:</mat-label>
+        <mat-select [(ngModel)]="selectedCategory" (selectionChange)="filterEvents()">
+          <mat-option *ngFor="let category of categories" [value]="category.category_id">
+            {{ category.category_name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <button mat-button (click)="clearFilters()">Wyczyść filtry</button>    
     </div>
 
     <h1>Wydarzenia z wybranego zakresu czasowego</h1>

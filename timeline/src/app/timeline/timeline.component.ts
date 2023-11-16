@@ -24,6 +24,7 @@ export class TimelineComponent implements OnInit {
   endDate: Date | null;
   sortBy: string;
   displayedColumns: string[] = ['event_name', 'start_date', 'end_date', 'description', 'category_name', 'image'];
+  selectedCategory: number | null;
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   dataSource: MatTableDataSource<TimelineEvent>;
@@ -31,6 +32,7 @@ export class TimelineComponent implements OnInit {
   constructor(private EventService: EventService, private CategoryService: CategoryService) {
     this.startDate = null;
     this.endDate = null;
+    this.selectedCategory = null;
     this.sortBy = 'event_id';
     this.events = [];
     this.filteredEvents = [...this.events];
@@ -49,61 +51,81 @@ export class TimelineComponent implements OnInit {
       this.categories = categories;
       this.categoryMap = new Map(categories.map(category => [category.category_id, category.category_name]));
     });
-    this.filterByDate();
+    this.filterEvents();
     this.sortByStartDate();
   }
 
-  filterByDate(): void {
-    if (this.startDate !== null && this.endDate !== null) {
-      this.filteredEvents = this.events.filter(event => {
-        const eventDateStart = new Date(event.start_date ?? new Date());
-        const eventDateEnd = new Date(event.end_date ?? new Date());
-        const isAfterStartDate = isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
-        const isBeforeEndDate = isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
+  filterEvents(): void {
+    if (this.selectedCategory !== null) {
+      let filteredEvents = this.events.filter(event => event.category_id === this.selectedCategory);
   
-        return isAfterStartDate && isBeforeEndDate;
-      });
-    } else if (this.startDate !== null) {
-      // Filtrowanie tylko po dacie od
-      this.filteredEvents = this.events.filter(event => {
-        const eventDateStart = new Date(event.start_date ?? new Date());
-        return isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
-      });
-    } else if (this.endDate !== null) {
-      // Filtrowanie tylko po dacie do
-      this.filteredEvents = this.events.filter(event => {
-        const eventDateEnd = new Date(event.end_date ?? new Date());
-        return isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
-      });
+      if (this.startDate !== null && this.endDate !== null) {
+        filteredEvents = filteredEvents.filter(event => {
+          const eventDateStart = new Date(event.start_date ?? new Date());
+          const eventDateEnd = new Date(event.end_date ?? new Date());
+          const isAfterStartDate = isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
+          const isBeforeEndDate = isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
+  
+          return isAfterStartDate && isBeforeEndDate;
+        });
+      }
+  
+      this.filteredEvents = filteredEvents;
+      this.dataSource.data = this.filteredEvents;
+      this.sortByStartDate();
     } else {
-      this.filteredEvents = this.events;
-    }
+      if (this.startDate !== null && this.endDate !== null) {
+        this.filteredEvents = this.events.filter(event => {
+          const eventDateStart = new Date(event.start_date ?? new Date());
+          const eventDateEnd = new Date(event.end_date ?? new Date());
+          const isAfterStartDate = isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
+          const isBeforeEndDate = isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
   
-    this.dataSource.data = this.filteredEvents;
+          return isAfterStartDate && isBeforeEndDate;
+        });
+      } else if (this.startDate !== null) {
+        // Filtrowanie tylko po dacie od
+        this.filteredEvents = this.events.filter(event => {
+          const eventDateStart = new Date(event.start_date ?? new Date());
+          return isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
+        });
+      } else if (this.endDate !== null) {
+        // Filtrowanie tylko po dacie do
+        this.filteredEvents = this.events.filter(event => {
+          const eventDateEnd = new Date(event.end_date ?? new Date());
+          return isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
+        });
+      } else {
+        this.filteredEvents = this.events;
+      }
+  
+      this.dataSource.data = this.filteredEvents;
+    }
   }
+  
 
   addStartDateEvent(event: MatDatepickerInputEvent<Date>) {
     this.startDate = event.value;
-    this.filterByDate();
-  }
-  
-  addEndDateEvent(event: MatDatepickerInputEvent<Date>) {
-    this.endDate = event.value;
-    this.filterByDate();
+    this.filterEvents();
   }
 
-  clearDates(): void {
-    this.startDate = null;
-    this.endDate = null;
-    this.filterByDate();
-    this.sortByStartDate();
+  addEndDateEvent(event: MatDatepickerInputEvent<Date>) {
+    this.endDate = event.value;
+    this.filterEvents();
   }
 
   // Sortowanie po dacie rozpoczęcia wydarzenia dla wydarzeń na osi czasu
   sortByStartDate(): void {
     this.filteredEvents = this.filteredEvents.sort((a, b) =>
-    new Date(a.start_date ?? new Date()).getTime() - new Date(b.start_date ?? new Date()).getTime()
+      new Date(a.start_date ?? new Date()).getTime() - new Date(b.start_date ?? new Date()).getTime()
     );
   }
 
+  clearFilters(): void {
+    this.startDate = null;
+    this.endDate = null;
+    this.selectedCategory = null;
+    this.filterEvents();
+    this.sortByStartDate();    
+  }
 }
