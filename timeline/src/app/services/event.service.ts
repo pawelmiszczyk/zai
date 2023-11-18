@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { TimelineEvent } from '../model/timeline-event';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class EventService {
   counterOfEvents: number;
 
   // TODO do zrobienia wczytywanie obrazkow z assets/images zamiast nulli w konstruktorze
-  constructor() { 
+  constructor(private http: HttpClient) { 
     this.events = [
       {
         event_id: 1,
@@ -56,14 +57,28 @@ export class EventService {
 
   editEvent(modifiedEvent: TimelineEvent): Observable<String> {
     const index = this.events.findIndex(event => event.event_id === modifiedEvent.event_id);
+  
     if (index !== -1) {
-      this.events = this.events.map((event, i) => (i === index ? modifiedEvent : event));
+      const originalEvent = this.events[index];
+      
+      // Sprawdź, czy modifiedEvent.image nie jest null ani undefined
+      const updatedEvent: TimelineEvent = {
+        ...originalEvent,
+        ...modifiedEvent,
+        image: modifiedEvent.image !== null && modifiedEvent.image !== undefined
+          ? modifiedEvent.image
+          : originalEvent.image
+      };
+  
+      this.events = this.events.map((event, i) => (i === index ? updatedEvent : event));
+  
       return of('Wydarzenie zostało zmodyfikowane');
     } else {
       console.error(`Wydarzenie o identyfikatorze ${modifiedEvent.event_id} nie zostało znalezione.`);
       return of('Błąd: Wydarzenie nie zostało znalezione');
     }
   }
+  
 
   deleteEvent(eventId: number): Observable<String> {
     this.events = this.events.filter(event => event.event_id !== eventId);
@@ -76,5 +91,3 @@ export class EventService {
   }
 
 }
-
-

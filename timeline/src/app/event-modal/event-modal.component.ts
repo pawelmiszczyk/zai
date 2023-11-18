@@ -80,7 +80,6 @@ export class EventModalComponent {
       const endDateWithoutTime = new Date(this.newEvent.end_date);
       endDateWithoutTime.setHours(0, 0, 0, 0);
   
-      // Porównaj zmodyfikowane daty
       if (startDateWithoutTime > endDateWithoutTime) {
         this.dateError = true;
       } else {
