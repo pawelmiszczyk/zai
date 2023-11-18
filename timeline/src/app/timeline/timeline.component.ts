@@ -7,6 +7,7 @@ import { TimelineEvent } from '../model/timeline-event'
 import { EventService } from '../services/event.service';
 import { Category } from '../model/category';
 import { CategoryService } from '../services/category.service';
+import { PrimeIcons } from "primeng/api"; 
 
 @Component({
   selector: 'app-timeline',
@@ -128,4 +129,14 @@ export class TimelineComponent implements OnInit {
     this.filterEvents();
     this.sortByStartDate();    
   }
+
+  getCategoryIcon(categoryId: number): string | null {
+    const category = this.categories.find(cat => cat.category_id === categoryId);
+    return category ? category.category_icon : null;
+}
+
+  getCategoryColor(categoryId: number): string | null {
+    const category = this.categories.find(cat => cat.category_id === categoryId);
+    return category ? category.category_color : null;
+}
 }

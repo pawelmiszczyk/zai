@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Category } from '../model/category';
 import { Observable, of } from 'rxjs';
 import { EventService } from '../services/event.service';
+import { PrimeIcons } from "primeng/api"; 
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +16,15 @@ export class CategoryService {
     this.categories = [
       {
         category_id: 1,
-        category_name: 'Przykładowa kategoria 1',
-        category_color: '#895858',
+        category_name: 'Sukces',
+        category_color: '#F0F00F',
+        category_icon: PrimeIcons.DOLLAR
       },
       {
         category_id: 2,
-        category_name: 'Przykładowa kategoria 2',
-        category_color: '#895858',
+        category_name: 'Jednodniowe',
+        category_color: '#0F58F8',
+        category_icon: PrimeIcons.CLOUD
       }
     ];
     this.counterOfCategories = this.categories.length;

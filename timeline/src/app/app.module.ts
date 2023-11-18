@@ -7,7 +7,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
-
+import { DropdownModule } from 'primeng/dropdown';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,10 +53,10 @@ import { CardModule } from "primeng/card";
     PanelModule,
     TimelineModule,
     CardModule,
-    MatSelectModule
+    MatSelectModule,
+    DropdownModule
   ],
   exports: [EventModalComponent],
-  entryComponents: [EventModalComponent],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' }
   ],
