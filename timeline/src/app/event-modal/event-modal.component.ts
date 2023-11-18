@@ -40,7 +40,6 @@ export class EventModalComponent {
   }
 
   onSubmit(): void {
-    // TODO dodać warunek na sprawdzenie dat
     this.dialogRef.close(this.newEvent);
   }
 
@@ -74,12 +73,24 @@ export class EventModalComponent {
   }
 
   checkDates(): void {
-    if (this.newEvent.start_date && this.newEvent.end_date && new Date(this.newEvent.start_date) > new Date(this.newEvent.end_date)) {
-      this.dateError = true; 
+    if (this.newEvent.start_date && this.newEvent.end_date) {
+      const startDateWithoutTime = new Date(this.newEvent.start_date);
+      startDateWithoutTime.setHours(0, 0, 0, 0);
+  
+      const endDateWithoutTime = new Date(this.newEvent.end_date);
+      endDateWithoutTime.setHours(0, 0, 0, 0);
+  
+      // Porównaj zmodyfikowane daty
+      if (startDateWithoutTime > endDateWithoutTime) {
+        this.dateError = true;
+      } else {
+        this.dateError = false;
+      }
     } else {
-      this.dateError = false; 
+      this.dateError = false;
     }
   }
+  
 
   onImageSelected(event: any): void {
     const fileInput = event.target;
