@@ -139,4 +139,9 @@ export class TimelineComponent implements OnInit {
     const category = this.categories.find(cat => cat.category_id === categoryId);
     return category ? category.category_color : null;
 }
+
+printTimeline(): void {
+    window.print();
+  }
+  
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { TimelineEvent } from '../model/timeline-event';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +9,7 @@ export class EventService {
   events: TimelineEvent[];
   counterOfEvents: number;
 
-  // TODO do zrobienia wczytywanie obrazkow z assets/images zamiast nulli w konstruktorze
-  constructor(private http: HttpClient) { 
+  constructor() { 
     this.events = [
       {
         event_id: 1,

@@ -1,27 +1,31 @@
+<div class="card">
+  <h1>Wydarzenia na osi czasu</h1>
+  <p-timeline [value]="filteredEvents" align="alternate" layout="vertical" styleClass="customized-timeline">
+    <ng-template pTemplate="marker" let-event> 
+      <span class="custom-marker p-shadow-2"
+            [style.backgroundColor]="getCategoryColor(event.event_id)"> 
+          <i [ngClass]="getCategoryIcon(event.event_id)"></i> 
+      </span> 
+  </ng-template> 
+    <ng-template pTemplate="content" let-event>
+      <div class="timeline-content">
+        <h3><b>{{ event.event_name }}</b></h3>
+        <p>{{ event.description }}</p>
+        <p>Data rozpoczęcia: {{ event.start_date | date: 'dd-MM-yyyy' }}</p>
+        <p>Data zakończenia: {{ event.end_date | date: 'dd-MM-yyyy' }}</p>
+        <img *ngIf="event.image" [src]="event.image" alt="Zdjęcie" class="max-size-img">
+        <img *ngIf="!event.image && event.event_id === 1" [src]="event.image || 'assets/images/shakeHands.png'" alt="Obrazek" class="max-size-img">
+        <img *ngIf="!event.image && event.event_id === 2" [src]="event.image || 'assets/images/internationalWorkshops.png'" alt="Obrazek" class="max-size-img">
+        <img *ngIf="!event.image && event.event_id === 3" [src]="event.image || 'assets/images/agreement.png'" alt="Obrazek" class="max-size-img">
+      </div>
+    </ng-template>
+  </p-timeline>
+</div>  
+
 <div class="container">
-  <div class="card">
-    <h1>Wydarzenia na osi czasu</h1>
-    <p-timeline [value]="filteredEvents" align="alternate" layout="vertical" styleClass="customized-timeline">
-      <ng-template pTemplate="marker" let-event> 
-        <span class="custom-marker p-shadow-2"
-              [style.backgroundColor]="getCategoryColor(event.event_id)"> 
-            <i [ngClass]="getCategoryIcon(event.event_id)"></i> 
-        </span> 
-    </ng-template> 
-      <ng-template pTemplate="content" let-event>
-        <div class="timeline-content">
-          <h3><b>{{ event.event_name }}</b></h3>
-          <p>{{ event.description }}</p>
-          <p>Data rozpoczęcia: {{ event.start_date | date: 'dd-MM-yyyy' }}</p>
-          <p>Data zakończenia: {{ event.end_date | date: 'dd-MM-yyyy' }}</p>
-          <img *ngIf="event.image" [src]="event.image" alt="Zdjęcie" class="max-size-img">
-          <img *ngIf="!event.image && event.event_id === 1" [src]="event.image || 'assets/images/shakeHands.png'" alt="Obrazek" class="max-size-img">
-          <img *ngIf="!event.image && event.event_id === 2" [src]="event.image || 'assets/images/internationalWorkshops.png'" alt="Obrazek" class="max-size-img">
-          <img *ngIf="!event.image && event.event_id === 3" [src]="event.image || 'assets/images/agreement.png'" alt="Obrazek" class="max-size-img">
-        </div>
-      </ng-template>
-    </p-timeline>
-  </div>  
+  <div class="text-center">
+    <button mat-raised-button color="primary" (click)="printTimeline()">Drukuj oś czasu</button>
+  </div>
 
   <h1>Kryteria datowe filtrowania wydarzeń</h1> 
     <div class="filter">
