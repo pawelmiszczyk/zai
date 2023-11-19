@@ -13,6 +13,7 @@ export class CategoryService {
   counterOfCategories: number;
 
   constructor(private eventService: EventService) { 
+    /** Mock kategorii */
     this.categories = [
       {
         category_id: 1,
@@ -31,16 +32,27 @@ export class CategoryService {
   }
     
 
+  /** Metoda zwraca liste kategorii */
   getCategories(): Observable<Category[]> {
     return of(this.categories);
   }
 
+  /**
+   * Metoda dodaje kategorie
+   * @param category - kategoria do doania
+   * @returns informacja o dodaniu kategorii
+   */
   addCategory(category: Category): Observable<String> {
     category.category_id = ++this.counterOfCategories;
     this.categories.push(category);
     return of("Kategoria została dodane.");
   }
 
+  /**
+   * Metoda modyfikuje kategorie
+   * @param modifiedCategory - modyfikowana kategoria
+   * @returns informacja o modyfikacji kategorii
+   */
   editCategory(modifiedCategory: Category): Observable<String> {
     const index = this.categories.findIndex(category => category.category_id === modifiedCategory.category_id);
     if (index !== -1) {
@@ -52,6 +64,11 @@ export class CategoryService {
     } 
   }
 
+  /**
+   * Metoda usuwa kategorię pod warunkiem, że nie istnieje wydarzenie z usuwaną kategorią
+   * @param categoryId - identyfikator kategorii
+   * @returns informacja o usunięciu kategorii
+   */
   deleteCategory(categoryId: number): Observable<String> {
     if (this.eventService.isExistsEventAndCategory(categoryId)) {
       this.categories = this.categories.filter(category => category.category_id !== categoryId);

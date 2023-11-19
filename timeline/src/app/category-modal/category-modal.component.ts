@@ -19,6 +19,7 @@ export class CategoryModalComponent {
   }
   isNewCategory: boolean;
 
+  /** Lista zawierająca ikony */
   iconOptions = [
     { label: 'Kąt w dół', value: PrimeIcons.ANGLE_DOWN },
     { label: 'Kąt w górę', value: PrimeIcons.ANGLE_UP },
@@ -57,19 +58,27 @@ export class CategoryModalComponent {
     this.isNewCategory = data.isNewCategory;
   }
 
+  /**
+   * Metoda zamyka okno i w odpowiedzi przekazuje kategorie.
+   * @param form - formularz
+   */
   onSubmit(form: NgForm): void {
     if (form.valid) {
       this.dialogRef.close(this.currentCategory);
     }
   }
 
+  /**
+   * Metoda zamyka okno
+   */
   onCancel(): void {
     this.dialogRef.close();
   }
 
+  /**
+   * Metoda emituje zmianę ikony
+   */
   onIconChange(): void {
-    // Aktualizuj listę lub wykonaj inne działania po zmianie ikony
-    // Tu możesz wywołać funkcję, która uzupełni listę
     this.iconSelectionChange.emit();
   }
 

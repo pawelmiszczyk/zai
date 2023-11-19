@@ -26,18 +26,27 @@ export class EventManagementComponent implements OnInit {
     this.loadCategories();
   }
 
+  /**
+   * Metoda wczytuje wydarzenia wywołując metode getEvents serwisu wydarzeń.
+   */
   loadEvents(): void {
     this.eventService.getEvents().subscribe((events) => {
       this.events = events;
     });
   }
 
+  /**
+   * Metoda wczytuje kategorię wywołując metode getCategories serwisu kategorii.
+   */
   loadCategories(): void {
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
   }
 
+  /**
+   * Metoda otwiera okno modalne służące do dodania nowego wydarzenia. Po zamknięciu okna modalnego dodawane jest nowe wydarzenie z użyciem serwisu dodania wydarzenia.
+   */
   openAddEventModal(): void {
     const dialogRef = this.dialog.open(EventModalComponent, {
       width: '400px', 
@@ -52,6 +61,10 @@ export class EventManagementComponent implements OnInit {
     });
   }
 
+  /**
+   * Metoda otwiera okno modalne służące do edycji wydarzenia. Po zamknięciu okna modalnego edytowane jest wydarzenie z użyciem serwisu edycji wydarzenia.
+   * @param event - edytowane wydarzenie
+   */
   openEditEventModal(event: TimelineEvent): void {
     const dialogRef = this.dialog.open(EventModalComponent, {
       width: '400px', 
@@ -65,6 +78,10 @@ export class EventManagementComponent implements OnInit {
     });
   }
 
+  /**
+   * Metoda wywołuje metode serwisu wydarzenia, która usuwa wydarzenie.
+   * @param eventId - identyfikator wydarzenia
+   */
   deleteEvent(eventId: number): void {
     this.eventService.deleteEvent(eventId).subscribe(() => {
       this.loadEvents();

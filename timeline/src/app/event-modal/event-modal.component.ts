@@ -39,14 +39,25 @@ export class EventModalComponent {
     }
   }
 
+  /**
+   * Metoda zamyka okno i w odpowiedzi przekazuje wydarzenie.
+   */
   onSubmit(): void {
     this.dialogRef.close(this.newEvent);
   }
 
+  /**
+   * Metoda zamyka okno
+   */
   onCancel(): void {
     this.dialogRef.close();
   }
 
+  /**
+   * Metoda formatuje date
+   * @param date - formatowana data
+   * @returns data w postaci gotowej do wyświetlenia
+   */
   formatDate(date: Date | null): string {
     if (date !== null) {
       const localDateTime = new Date(date).toLocaleString('en-US', { timeZone: 'Europe/Belgrade' });
@@ -58,6 +69,10 @@ export class EventModalComponent {
     return '';
   }
 
+  /**
+   * Metoda ustawia datę do wydarzenia i sprawdza poprawność dat.
+   * @param event - uzupełniona data
+   */
   updateStartDate(event: any): void {
     if (event) {
       this.newEvent.start_date = event;
@@ -65,6 +80,10 @@ export class EventModalComponent {
     this.checkDates();
   }
 
+    /**
+   * Metoda ustawia datę od wydarzenia i sprawdza poprawność dat.
+   * @param event - uzupełniona data
+   */
   updateEndDate(event: any): void {
     if (event) {
       this.newEvent.end_date = event;
@@ -72,6 +91,9 @@ export class EventModalComponent {
     this.checkDates();
   }
 
+  /**
+   * Metoda weryfikuje poprawność dat. Sprawdza czy data od > data do.
+   */
   checkDates(): void {
     if (this.newEvent.start_date && this.newEvent.end_date) {
       const startDateWithoutTime = new Date(this.newEvent.start_date);
@@ -91,6 +113,10 @@ export class EventModalComponent {
   }
   
 
+  /**
+   * Metoda wywołuje zapisanie zdjęcia w wydarzeniu 
+   * @param event - plik z kontrolki
+   */
   onImageSelected(event: any): void {
     const fileInput = event.target;
     if (fileInput.files.length > 0) {
@@ -99,6 +125,10 @@ export class EventModalComponent {
     }
   }
 
+  /**
+   * Metoda wczytuje i zapisuje zdjecie w wydarzeniu.
+   * @param file - plik ze zdjęciem
+   */
   readAndSetImage(file: File): void {
     const reader = new FileReader();
     
