@@ -8,7 +8,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { DropdownModule } from 'primeng/dropdown';
-import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -56,7 +55,6 @@ import { CardModule } from "primeng/card";
     CardModule,
     MatSelectModule,
     DropdownModule,
-    HttpClientModule
   ],
   exports: [EventModalComponent],
   providers: [

@@ -3,12 +3,12 @@
   <p-timeline [value]="filteredEvents" align="alternate" layout="vertical" styleClass="customized-timeline">
     <ng-template pTemplate="marker" let-event> 
       <span class="custom-marker p-shadow-2"
-            [style.backgroundColor]="getCategoryColor(event.event_id)"> 
-          <i [ngClass]="getCategoryIcon(event.event_id)"></i> 
+            [style.backgroundColor]="getCategoryColor(event.category_id)"> 
+          <i [ngClass]="getCategoryIcon(event.category_id)"></i> 
       </span> 
   </ng-template> 
     <ng-template pTemplate="content" let-event>
-      <div class="timeline-content">
+      <div class="timeline-content" [style.border-color]="getCategoryColor(event.category_id)">
         <h3><b>{{ event.event_name }}</b></h3>
         <p>{{ event.description }}</p>
         <p>Data rozpoczęcia: {{ event.start_date | date: 'dd-MM-yyyy' }}</p>

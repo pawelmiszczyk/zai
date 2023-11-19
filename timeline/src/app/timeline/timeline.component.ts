@@ -55,6 +55,9 @@ export class TimelineComponent implements OnInit {
     this.sortByStartDate();
   }
 
+  /**
+   * Metoda filtruje wydarzenia. Weryfikowane są dwa kryteria - datowe i kategorii. 
+   */
   filterEvents(): void {
     if (this.selectedCategory !== null) {
       let filteredEvents = this.events.filter(event => event.category_id === this.selectedCategory);
@@ -103,24 +106,36 @@ export class TimelineComponent implements OnInit {
     }
   }
   
-
+  /**
+   * Metoda ustawia data od filtru i filtruje wydarzenia
+   * @param event - data od filtru
+   */
   addStartDateEvent(event: MatDatepickerInputEvent<Date>) {
     this.startDate = event.value;
     this.filterEvents();
   }
 
+  /**
+   * Metoda ustawia data do filtru i filtruje wydarzenia
+   * @param event - data do filtru
+   */
   addEndDateEvent(event: MatDatepickerInputEvent<Date>) {
     this.endDate = event.value;
     this.filterEvents();
   }
 
-  // Sortowanie po dacie rozpoczęcia wydarzenia dla wydarzeń na osi czasu
+  /**
+   * Metoda sortuje wydarzenia po dacie rozpoczęcia wydarzenia dla wydarzeń na osi czasu
+   */
   sortByStartDate(): void {
     this.filteredEvents = this.filteredEvents.sort((a, b) =>
       new Date(a.start_date ?? new Date()).getTime() - new Date(b.start_date ?? new Date()).getTime()
     );
   }
 
+  /**
+   * Metoda czyści filtry i ponownie ustawia wydarzenia
+   */
   clearFilters(): void {
     this.startDate = null;
     this.endDate = null;
@@ -129,16 +144,29 @@ export class TimelineComponent implements OnInit {
     this.sortByStartDate();    
   }
 
+  /**
+   * Metoda zwraca ikone kategorii
+   * @param categoryId - identyfikator kategorii
+   * @returns ikona kategorii
+   */
   getCategoryIcon(categoryId: number): string | null {
     const category = this.categories.find(cat => cat.category_id === categoryId);
     return category ? category.category_icon : null;
 }
 
+/**
+ * Metoda zwraca kolor kategorii
+ * @param categoryId - identyfikator kategorii
+ * @returns kolor kategorii
+ */
   getCategoryColor(categoryId: number): string | null {
     const category = this.categories.find(cat => cat.category_id === categoryId);
     return category ? category.category_color : null;
 }
 
+/**
+ * Metoda drukuje oś czasu
+ */
 printTimeline(): void {
     window.print();
   }
