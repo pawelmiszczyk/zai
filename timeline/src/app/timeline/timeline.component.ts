@@ -59,51 +59,37 @@ export class TimelineComponent implements OnInit {
    * Metoda filtruje wydarzenia. Weryfikowane są dwa kryteria - datowe i kategorii. 
    */
   filterEvents(): void {
+    let filteredEvents = this.events;
+  
     if (this.selectedCategory !== null) {
-      let filteredEvents = this.events.filter(event => event.category_id === this.selectedCategory);
-  
-      if (this.startDate !== null && this.endDate !== null) {
-        filteredEvents = filteredEvents.filter(event => {
-          const eventDateStart = new Date(event.start_date ?? new Date());
-          const eventDateEnd = new Date(event.end_date ?? new Date());
-          const isAfterStartDate = isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
-          const isBeforeEndDate = isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
-  
-          return isAfterStartDate && isBeforeEndDate;
-        });
-      }
-  
-      this.filteredEvents = filteredEvents;
-      this.dataSource.data = this.filteredEvents;
-      this.sortByStartDate();
-    } else {
-      if (this.startDate !== null && this.endDate !== null) {
-        this.filteredEvents = this.events.filter(event => {
-          const eventDateStart = new Date(event.start_date ?? new Date());
-          const eventDateEnd = new Date(event.end_date ?? new Date());
-          const isAfterStartDate = isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
-          const isBeforeEndDate = isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
-  
-          return isAfterStartDate && isBeforeEndDate;
-        });
-      } else if (this.startDate !== null) {
-        // Filtrowanie tylko po dacie od
-        this.filteredEvents = this.events.filter(event => {
-          const eventDateStart = new Date(event.start_date ?? new Date());
-          return isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
-        });
-      } else if (this.endDate !== null) {
-        // Filtrowanie tylko po dacie do
-        this.filteredEvents = this.events.filter(event => {
-          const eventDateEnd = new Date(event.end_date ?? new Date());
-          return isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
-        });
-      } else {
-        this.filteredEvents = this.events;
-      }
-  
-      this.dataSource.data = this.filteredEvents;
+      filteredEvents = filteredEvents.filter(event => event.category_id === this.selectedCategory);
     }
+  
+    if (this.startDate !== null && this.endDate !== null) {
+      filteredEvents = filteredEvents.filter(event => {
+        const eventDateStart = new Date(event.start_date ?? new Date());
+        const eventDateEnd = new Date(event.end_date ?? new Date());
+        const isAfterStartDate = isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
+        const isBeforeEndDate = isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
+  
+        return isAfterStartDate && isBeforeEndDate;
+      });
+    } else if (this.startDate !== null) {
+      // Filtrowanie tylko po dacie od
+      filteredEvents = filteredEvents.filter(event => {
+        const eventDateStart = new Date(event.start_date ?? new Date());
+        return isAfter(eventDateStart, this.startDate!) || isSameDay(eventDateStart, this.startDate!);
+      });
+    } else if (this.endDate !== null) {
+      // Filtrowanie tylko po dacie do
+      filteredEvents = filteredEvents.filter(event => {
+        const eventDateEnd = new Date(event.end_date ?? new Date());
+        return isBefore(eventDateEnd, this.endDate!) || isSameDay(eventDateEnd, this.endDate!);
+      });
+    }
+  
+    this.filteredEvents = filteredEvents;
+    this.dataSource.data = this.filteredEvents;
   }
   
   /**
