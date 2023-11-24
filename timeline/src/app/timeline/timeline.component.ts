@@ -170,5 +170,22 @@ export class TimelineComponent implements OnInit {
 printTimeline(): void {
     window.print();
   }
+
+  /**
+   * Metoda konwertuje date z formatu długiego do DD-MM-YYYY
+   * @param date data do konwersji 
+   * @returns data w formacie DD-MM-YYYY
+   */
+  convertDate(date: string): string {
+    const data: Date = new Date(date);
+  
+    const dzien: number = data.getDate();
+    const miesiac: number = data.getMonth() + 1;
+    const rok: number = data.getFullYear();
+  
+    const sformatowanaData: string = `${dzien < 10 ? '0' : ''}${dzien}-${miesiac < 10 ? '0' : ''}${miesiac}-${rok}`;
+  
+    return sformatowanaData;
+  }
   
 }
