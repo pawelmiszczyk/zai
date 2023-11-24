@@ -24,17 +24,17 @@
     <button mat-raised-button color="primary" (click)="printTimeline()">Drukuj oś czasu</button>
   </div>
 
-  <h1>Kryteria datowe filtrowania wydarzeń</h1> 
+  <h1>Kryteria filtrowania wydarzeń</h1> 
     <div class="filter">
       <mat-form-field>
-        <mat-label>Od:</mat-label>
+        <mat-label>Zakres od:</mat-label>
         <input matInput [matDatepicker]="startDatePicker" (dateInput)="addStartDateEvent($event)" [(ngModel)]="startDate" readonly>
         <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #startDatePicker></mat-datepicker>
       </mat-form-field>
     
       <mat-form-field>
-        <mat-label>Do:</mat-label>
+        <mat-label>Zakres do:</mat-label>
         <input matInput [matDatepicker]="endDatePicker" (dateInput)="addEndDateEvent($event)" [(ngModel)]="endDate" readonly>
         <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #endDatePicker></mat-datepicker>

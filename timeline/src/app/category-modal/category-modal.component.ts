@@ -40,7 +40,8 @@ export class CategoryModalComponent {
     { label: 'Koło zębate', value: PrimeIcons.COG },
     { label: 'Komentarz', value: PrimeIcons.COMMENT },
     { label: 'Dolar', value: PrimeIcons.DOLLAR },
-    { label: 'Chmura', value: PrimeIcons.CLOUD }
+    { label: 'Chmura', value: PrimeIcons.CLOUD },
+    { label: 'Użytkownicy', value: PrimeIcons.USERS }
   ];
 
   iconSelectionChange = new EventEmitter();

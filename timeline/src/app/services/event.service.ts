@@ -19,7 +19,7 @@ export class EventService {
         end_date: new Date('11-07-2023'),
         description: 'W tych dniach odbyły się międzynarodowe warsztaty w zarządzaniu projektami informatycznymi.',
         image: null,
-        category_id: 1,
+        category_id: 2,
       },
       {
         event_id: 2,
@@ -28,7 +28,7 @@ export class EventService {
         end_date: new Date('11-03-2023'),
         description: 'Firma zatrudniła 30 nowych specjalistów IT.',
         image: null,
-        category_id: 2,
+        category_id: 3,
       },
       {
         event_id: 3,
@@ -37,7 +37,7 @@ export class EventService {
         end_date: new Date('11-10-2023'),
         description: 'Firma podpisała umowę wartą 10 milionów złotych.',
         image: null,
-        category_id: 2,
+        category_id: 1,
       }
     ];
     this.counterOfEvents = this.events.length;

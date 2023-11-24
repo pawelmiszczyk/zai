@@ -18,7 +18,7 @@ export class CategoryService {
       {
         category_id: 1,
         category_name: 'Sukces',
-        category_color: '#F0F00F',
+        category_color: '#006400',
         category_icon: PrimeIcons.DOLLAR
       },
       {
@@ -26,6 +26,12 @@ export class CategoryService {
         category_name: 'Jednodniowe',
         category_color: '#0F58F8',
         category_icon: PrimeIcons.CLOUD
+      },
+      {
+        category_id: 3,
+        category_name: 'Kilkudniowe',
+        category_color: '#3F00FF',
+        category_icon: PrimeIcons.USERS
       }
     ];
     this.counterOfCategories = this.categories.length;
