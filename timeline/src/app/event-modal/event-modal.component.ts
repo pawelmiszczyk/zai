@@ -74,7 +74,7 @@ export class EventModalComponent {
    */
   updateStartDate(event: any): void {
     if (event) {
-      this.newEvent.start_date = event;
+      this.newEvent.start_date = event.value;
     }
     this.checkDates();
   }
@@ -85,7 +85,7 @@ export class EventModalComponent {
    */
   updateEndDate(event: any): void {
     if (event) {
-      this.newEvent.end_date = event;
+      this.newEvent.end_date = event.value;
     }
     this.checkDates();
   }
@@ -95,13 +95,7 @@ export class EventModalComponent {
    */
   checkDates(): void {
     if (this.newEvent.start_date && this.newEvent.end_date) {
-      const startDateWithoutTime = new Date(this.newEvent.start_date);
-      startDateWithoutTime.setHours(0, 0, 0, 0);
-  
-      const endDateWithoutTime = new Date(this.newEvent.end_date);
-      endDateWithoutTime.setHours(0, 0, 0, 0);
-  
-      if (startDateWithoutTime > endDateWithoutTime) {
+      if (this.newEvent.start_date > this.newEvent.end_date) {
         this.dateError = true;
       } else {
         this.dateError = false;
